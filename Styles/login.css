@@ -1,0 +1,198 @@
+/* Adicionado :root para manter a consistência de cores */
+:root {
+    --cor-primaria: #7f00ff;
+    --cor-secundaria: #a759f5;
+    --cor-fundo: #0d0d0d;
+    --cor-fundo-card: #1a1a1a;
+    --cor-texto: #f0f0f0;
+    --cor-texto-secundario: #a0a0a0;
+    --fonte-principal: 'Poppins', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    
+    background: url('../img/background.jpg')no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.form-box{
+    position: relative;
+    width: 400px;  
+    /* Altura será automática para acomodar a mensagem */
+    min-height: 500px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Adicionado padding interno */
+}
+h2{
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+.inputbox{
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #fff;
+}
+.inputbox label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+}
+input:focus ~ label,
+input:valid ~ label{
+top: -5px;
+}
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding:0 35px 0 5px;
+    color: #fff;
+}
+.inputbox ion-icon{
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    top: 20px;
+}
+.forget{
+    margin: -15px 0 15px ;
+    font-size: .9em;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;  
+}
+.forget label a{
+    color: #fff;
+    text-decoration: none;
+}
+.forget label a:hover{
+    text-decoration: underline;
+}
+button{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: var(--cor-primaria); /* Usando a cor primária */
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: white; /* Cor do texto do botão */
+    transition: background-color 0.3s;
+}
+button:hover {
+    background: var(--cor-secundaria);
+}
+.register{
+    font-size: .9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+.register p a{
+    text-decoration: none;
+    color: var(--cor-secundaria); /* Usando a cor secundária */
+    font-weight: 600;
+}
+.register p a:hover{
+    text-decoration: underline;
+}
+
+.navbar {
+    width: 100%;
+    box-sizing: border-box; 
+    padding: 15px 4vw;      
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+.navbar-logo img {
+    height: 50px;
+}
+.navbar-links {
+    display: flex;
+    align-items: center;
+}
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1em;
+    transition: color 0.3s ease;
+    white-space: nowrap; 
+    margin-left: 25px; 
+}
+.navbar-links a:hover {
+    color: #ccc;
+}
+
+/* ======================================= */
+/* === NOVOS ESTILOS PARA AS MENSAGENS === */
+/* ======================================= */
+.login-message {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Mensagem de sucesso (Roxa) */
+.login-message.success {
+    color: #e9d5ff;
+    background-color: rgba(127, 0, 255, 0.15);
+    border: 1px solid var(--cor-primaria);
+}
+
+/* Mensagem de erro (Vermelha) */
+.login-message.error {
+    color: #f8d7da;
+    background-color: rgba(220, 53, 69, 0.15);
+    border: 1px solid #dc3545;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
