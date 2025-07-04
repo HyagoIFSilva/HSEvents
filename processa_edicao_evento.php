@@ -7,67 +7,54 @@ if (!isset($_SESSION['idUsuario'])) {
     exit();
 }
 
-$usuario_id = $_SESSION['idUsuario'];
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: meus_eventos.php');
+    exit;
+}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $idEvento = $_POST['idCadEvento'] ?? 0;
-    $nome = $_POST['nome'] ?? '';
-    $data = $_POST['data'] ?? '';
-    $descricao = $_POST['descricao'] ?? '';
-    $fotoAntiga = $_POST['fotoAntiga'] ?? '';
+$idCadEvento = $_POST['idCadEvento'] ?? 0;
+$nome = trim($_POST['nome'] ?? '');
+$data = trim($_POST['data'] ?? '');
+$descricao = trim($_POST['descricao'] ?? '');
+$fotoAntiga = $_POST['fotoAntiga'] ?? '';
+$idUsuario = $_SESSION['idUsuario'];
+$nomeFotoNova = $fotoAntiga;
 
-    if (empty($nome) || empty($data) || empty($descricao) || empty($idEvento)) {
-        echo "Erro: Todos os campos devem ser preenchidos.";
-        exit;
-    }
+if (isset($_FILES['foto_evento']) && $_FILES['foto_evento']['error'] === UPLOAD_ERR_OK) {
+    $imagem = $_FILES['foto_evento'];
+    $extensao = strtolower(pathinfo($imagem['name'], PATHINFO_EXTENSION));
+    $extensoes_permitidas = ['jpg', 'jpeg', 'png', 'gif'];
 
-    $novaFotoNome = $fotoAntiga;
+    if (in_array($extensao, $extensoes_permitidas)) {
+        $novo_nome_arquivo = "evento_" . uniqid() . "." . $extensao;
+        $caminho_upload = 'uploads/' . $novo_nome_arquivo;
 
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['foto']['tmp_name'];
-        $fileName = $_FILES['foto']['name'];
-        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'jfif'];
-
-        if (in_array($fileExtension, $allowedExtensions)) {
-            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-            $uploadFileDir = 'uploads/';
-            $destPath = $uploadFileDir . $newFileName;
-
-            if (move_uploaded_file($fileTmpPath, $destPath)) {
-                $novaFotoNome = $newFileName;
-                if ($fotoAntiga && file_exists($uploadFileDir . $fotoAntiga)) {
-                    unlink($uploadFileDir . $fotoAntiga);
-                }
-            } else {
-                echo "Erro ao mover o arquivo de imagem.";
-                exit;
+        if (move_uploaded_file($imagem['tmp_name'], $caminho_upload)) {
+            if ($fotoAntiga && file_exists('uploads/' . $fotoAntiga)) {
+                unlink('uploads/' . $fotoAntiga);
             }
-        } else {
-            echo "Tipo de arquivo não permitido.";
-            exit;
+            $nomeFotoNova = $novo_nome_arquivo;
         }
     }
+}
 
+try {
     $sql = "UPDATE tbcadevento SET 
-                nomeCadEvento = ?,
-                dataCadEvento = ?,
-                descCadEvento = ?,
+                nomeCadEvento = ?, 
+                dataCadEvento = ?, 
+                descCadEvento = ?, 
                 fotoCadEvento = ?
             WHERE idCadEvento = ? AND idUsuario = ?";
 
     $stmt = $con->prepare($sql);
-    $resultado = $stmt->execute([$nome, $data, $descricao, $novaFotoNome, $idEvento, $usuario_id]);
+    $stmt->execute([$nome, $data, $descricao, $nomeFotoNova, $idCadEvento, $idUsuario]);
 
-    if ($resultado) {
-        header('Location: meus_eventos.php?msg=editado');
-        exit();
-    } else {
-        echo "Erro ao atualizar evento no banco de dados.";
-        exit;
-    }
-} else {
-    echo "Método de requisição inválido.";
+    $_SESSION['evento_editado'] = "Evento atualizado com sucesso!";
+    header('Location: meus_eventos.php');
+    exit;
+
+} catch (PDOException $e) {
+    $_SESSION['msg_erro'] = "Erro ao atualizar o banco de dados: " . $e->getMessage();
+    header('Location: editar_evento.php?id=' . $idCadEvento);
     exit;
 }
-?>

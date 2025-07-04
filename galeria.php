@@ -2,22 +2,24 @@
 session_start();
 include 'conexao.php';
 
-
+// Verifica se o usuário está logado, se não estiver, redireciona para o login.
 if (!isset($_SESSION['idUsuario'])) {
     header('Location: login.php');
     exit();
 }
 
+// O id do usuário logado ainda é útil para outras funcionalidades, então o mantemos.
 $usuario_id = $_SESSION['idUsuario'];
 
-
+// MUDANÇA 1: A query foi alterada para buscar TODOS os eventos disponíveis no sistema,
+// e não apenas os que o usuário logado criou. A cláusula "WHERE idUsuario = ?" foi removida.
 $sql = "SELECT idCadEvento, nomeCadEvento, dataCadEvento, descCadEvento, fotoCadEvento
         FROM tbcadevento
-        WHERE idUsuario = ?
         ORDER BY dataCadEvento DESC";
 
 $stmt = $con->prepare($sql);
-$stmt->execute([$usuario_id]);
+// MUDANÇA 2: Como a cláusula WHERE foi removida, não precisamos mais passar o ID do usuário na execução.
+$stmt->execute();
 $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -25,11 +27,12 @@ $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Galeria - Meus Eventos</title>
+    <title>Galeria de Eventos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./Styles/galeria.css" />
     <link rel="stylesheet" href="./Styles/modal-delete.css" />
     <link rel="stylesheet" href="./Styles/carrinho.css" />
@@ -51,39 +54,53 @@ $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </nav>
 </header>
 
-<?php if (!empty($eventos)): ?>
-<div class="carousel-container">
-    <div class="carousel-track">
-        <?php foreach ($eventos as $ev): ?>
-            <div class="carousel-slide">
-                <img src="uploads/<?= htmlspecialchars($ev['fotoCadEvento']) ?>" alt="<?= htmlspecialchars($ev['nomeCadEvento']) ?>">
-                <div class="carousel-caption">
-                    <h3><?= htmlspecialchars($ev['nomeCadEvento']) ?></h3>
-                    <p>Data: <?= date('d/m/Y', strtotime($ev['dataCadEvento'])) ?></p>
-                </div>
+<div class="swiper">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="img/carousel-1.png" alt="Arena de E-sports">
+            <div class="carousel-caption">
+                <h3>Campeonatos Épicos</h3>
+                <p>Viva a emoção das grandes finais.</p>
             </div>
-        <?php endforeach; ?>
+        </div>
+        <div class="swiper-slide">
+            <img src="img/carousel-2.png" alt="Equipe de E-sports vitoriosa">
+            <div class="carousel-caption">
+                <h3>Vitória em Equipe</h3>
+                <p>Celebre as conquistas dos seus times favoritos.</p>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <img src="img/carousel-3.png" alt="Gamer focada em competição">
+            <div class="carousel-caption">
+                <h3>Foco Total</h3>
+                <p>A concentração máxima dos pro-players.</p>
+            </div>
+        </div>
     </div>
-    <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
-    <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
-    <div class="carousel-nav"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-pagination"></div>
 </div>
-<?php endif; ?>
 
-<?php if (isset($_SESSION['evento_excluido'])): ?>
-    <div class="alert-notification"> <?= $_SESSION['evento_excluido']; ?>
+<?php if (isset($_SESSION['evento_excluido']) || isset($_SESSION['evento_editado'])): ?>
+    <div class="alert-notification">
+        <?= $_SESSION['evento_excluido'] ?? $_SESSION['evento_editado']; ?>
     </div>
-    <?php unset($_SESSION['evento_excluido']); ?>
+    <?php 
+        unset($_SESSION['evento_excluido']); 
+        unset($_SESSION['evento_editado']);
+    ?>
 <?php endif; ?>
 
 <main class="gallery-container">
-    <h1 class="gallery-title">Meus Eventos</h1>
+    <h1 class="gallery-title">Eventos Disponíveis</h1>
     <?php if (empty($eventos)): ?>
-        <p style="text-align:center;">Nenhum evento cadastrado ainda.</p>
+        <p style="text-align:center;">Nenhum evento disponível no momento.</p>
     <?php else: ?>
         <div class="gallery-grid">
             <?php foreach ($eventos as $ev): 
-                $precoIngresso = 49.90;
+                $precoIngresso = 49.90; 
             ?>
                 <div class="gallery-card">
                     <div class="card-image-container">
@@ -154,6 +171,7 @@ $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 <div id="overlay" class="overlay"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="./js/galeria.js"></script>
 <script src="./js/carrinho.js"></script>
 

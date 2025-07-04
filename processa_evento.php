@@ -1,70 +1,60 @@
-    <?php
-    session_start();
-    include 'conexao.php';
+<?php
+session_start();
+include 'conexao.php';
 
-    if (!isset($_SESSION['idUsuario'])) {
-        header('Location: login.php');
-        exit();
-    }
+if (!isset($_SESSION['idUsuario'])) {
+    header('Location: login.php');
+    exit();
+}
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST'
-        && isset($_FILES['fotoCadEvento'])
-        && $_FILES['fotoCadEvento']['error'] == 0) {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: galeria.php');
+    exit;
+}
 
-        $titulo      = $_POST['nomeCadEvento'];
-        $data_evento = $_POST['dataCadEvento'];
-        $descricao   = $_POST['descCadEvento'];
+$idCadEvento = $_POST['idCadEvento'] ?? 0;
+$nome = trim($_POST['nome'] ?? '');
+$data = trim($_POST['data'] ?? '');
+$descricao = trim($_POST['descricao'] ?? '');
+$fotoAntiga = $_POST['fotoAntiga'] ?? '';
+$idUsuario = $_SESSION['idUsuario'];
+$nomeFotoNova = $fotoAntiga;
 
-        $imagem    = $_FILES['fotoCadEvento'];
-        $nome_img  = $imagem['name'];
-        $temp_img  = $imagem['tmp_name'];
+if (isset($_FILES['foto_evento']) && $_FILES['foto_evento']['error'] === UPLOAD_ERR_OK) {
+    $imagem = $_FILES['foto_evento'];
+    $extensao = strtolower(pathinfo($imagem['name'], PATHINFO_EXTENSION));
+    $extensoes_permitidas = ['jpg', 'jpeg', 'png', 'gif'];
 
-        $extensao   = strtolower(pathinfo($nome_img, PATHINFO_EXTENSION));
-        $permitidas = ['jpg', 'jpeg', 'png', 'gif', 'jfif'];
+    if (in_array($extensao, $extensoes_permitidas)) {
+        $novo_nome_arquivo = "evento_" . uniqid() . "." . $extensao;
+        $caminho_upload = 'uploads/' . $novo_nome_arquivo;
 
-        if (!in_array($extensao, $permitidas)) {
-            $_SESSION['msg_erro'] = "Erro: Formato de imagem inválido.";
-            header('Location: cadastrar_evento.php');
-            exit();
-        }
-
-        $pasta     = 'uploads/';
-        $contador  = 1;
-
-        foreach (glob($pasta . "evento*.*") as $arquivo) {
-            if (preg_match('/evento(\d+)\./', basename($arquivo), $m)) {
-                $contador = max($contador, (int)$m[1] + 1);
+        if (move_uploaded_file($imagem['tmp_name'], $caminho_upload)) {
+            if ($fotoAntiga && file_exists('uploads/' . $fotoAntiga)) {
+                unlink('uploads/' . $fotoAntiga);
             }
+            $nomeFotoNova = $novo_nome_arquivo;
         }
-
-        $nome_final    = "evento{$contador}.{$extensao}";
-        $caminho_final = $pasta . $nome_final;
-
-        if (move_uploaded_file($temp_img, $caminho_final)) {
-            try {
-                $sql  = "INSERT INTO tbcadevento
-                        (nomeCadEvento, dataCadEvento, descCadEvento, fotoCadEvento, idUsuario)
-                        VALUES (?,?,?,?,?)";
-                $stmt = $con->prepare($sql);
-                $stmt->execute([$titulo, $data_evento, $descricao, $nome_final, $_SESSION['idUsuario']]);
-
-                $_SESSION['evento_sucesso'] = true;
-                header('Location: cadastrar_evento.php');
-                exit();
-
-            } catch (PDOException $e) {
-                $_SESSION['msg_erro'] = "Erro ao cadastrar evento: " . $e->getMessage();
-                header('Location: cadastrar_evento.php');
-                exit();
-            }
-        } else {
-            $_SESSION['msg_erro'] = "Erro ao fazer upload da imagem.";
-            header('Location: cadastrar_evento.php');
-            exit();
-        }
-    } else {
-        $_SESSION['msg_erro'] = "Envie todos os campos e uma imagem válida.";
-        header('Location: cadastrar_evento.php');
-        exit();
     }
+}
 
+try {
+    $sql = "UPDATE tbcadevento SET 
+                nomeCadEvento = ?, 
+                dataCadEvento = ?, 
+                descCadEvento = ?, 
+                fotoCadEvento = ?
+            WHERE idCadEvento = ? AND idUsuario = ?";
+
+    $stmt = $con->prepare($sql);
+    $stmt->execute([$nome, $data, $descricao, $nomeFotoNova, $idCadEvento, $idUsuario]);
+
+    $_SESSION['evento_editado'] = "Evento atualizado com sucesso!";
+    header('Location: galeria.php');
+    exit;
+
+} catch (PDOException $e) {
+    $_SESSION['msg_erro'] = "Erro ao atualizar o banco de dados: " . $e->getMessage();
+    header('Location: editar_evento.php?id=' . $idCadEvento);
+    exit;
+}

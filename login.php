@@ -17,21 +17,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($senha, $user['senhaUsuario'])) {
-        // Sucesso no login
+        
         $_SESSION['idUsuario'] = $user['idUsuario'];
         $_SESSION['usuario']   = $usuario; 
         $_SESSION['nome']      = $user['nomeUsuario'];
         $_SESSION['foto']      = $user['foto']; 
 
         $mensagem = 'Login efetuado com sucesso! Redirecionando...';
-        // --- CLASSE ALTERADA PARA SUCESSO ---
+    
         $classe   = 'login-message success';
         $redirect = 'dashboard.php';
 
     } else {
-        // Erro no login
+       
         $erro   = 'Usuário ou senha incorretos.';
-        // --- CLASSE ALTERADA PARA ERRO ---
+   
         $classe = 'login-message error';
     }
 }

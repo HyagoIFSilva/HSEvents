@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-  // --- SEU CÓDIGO ORIGINAL ---
+
   window.addEventListener("scroll", function () {
       const navbar = document.querySelector(".navbar");
       navbar.classList.toggle("scrolled", window.scrollY > 50);
@@ -24,10 +24,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   window.addEventListener("scroll", scrollReveal);
   scrollReveal();
-  // --- FIM DO SEU CÓDIGO ORIGINAL ---
 
 
-  // --- NOVO CÓDIGO DO CARRINHO DE COMPRAS ---
+  
   const comprarButtons = document.querySelectorAll('.comprar-btn');
   const cartIconButton = document.getElementById('cart-icon');
   const sidebarCart = document.getElementById('sidebar-cart');
@@ -40,21 +39,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const overlay = document.getElementById('overlay');
   const continuarComprando = document.getElementById('continuar-comprando');
 
-  let cart = []; // Array para armazenar os itens do carrinho
+  let cart = []; 
 
-  // Função para abrir o carrinho lateral
   function openCart() {
       sidebarCart.classList.add('open');
       overlay.classList.add('show');
   }
 
-  // Função para fechar o carrinho lateral
+  
   function closeCart() {
       sidebarCart.classList.remove('open');
       overlay.classList.remove('show');
   }
 
-  // Adiciona evento de clique aos botões "COMPRAR +"
+
   comprarButtons.forEach(button => {
       button.addEventListener('click', () => {
           const card = button.closest('.produto-card');
@@ -70,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   });
 
-  // Função para adicionar um item ao carrinho
+
   function addToCart(product) {
       const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
