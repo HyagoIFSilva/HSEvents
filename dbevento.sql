@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/07/2025 às 21:03
+-- Tempo de geração: 07/07/2025 às 06:53
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -33,6 +33,7 @@ CREATE TABLE `tbcadevento` (
   `dataCadEvento` date NOT NULL,
   `descCadEvento` text NOT NULL,
   `fotoCadEvento` varchar(255) NOT NULL,
+  `precoCadEvento` decimal(10,2) NOT NULL DEFAULT 49.90,
   `idUsuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -40,12 +41,12 @@ CREATE TABLE `tbcadevento` (
 -- Despejando dados para a tabela `tbcadevento`
 --
 
-INSERT INTO `tbcadevento` (`idCadEvento`, `nomeCadEvento`, `dataCadEvento`, `descCadEvento`, `fotoCadEvento`, `idUsuario`) VALUES
-(1, 'Mundial De League Of Legends', '2025-12-12', 'MUNDIAL DE LOL', '6bd06ad4c8c900087a24c8e1f4656f6d.png', 1),
-(4, 'Major Csgo 2', '2025-08-07', 'Mundial de Counter Strike 2', '6ce629455d3ab6f9c17882d5481ec91a.png', 1),
-(5, 'Champions Valorant', '2026-12-11', 'Mundial De Valorantt', '', 1),
-(6, 'BGS evento', '2026-01-12', 'Maior evento de games do Brasil', 'efafbadf2f30b3e2a4f04cebf941f64b.png', 1),
-(7, 'Mundial De League Of Legendsaaa', '1231-03-12', 'asd', 'evento_6866ceca6eadf.png', 1);
+INSERT INTO `tbcadevento` (`idCadEvento`, `nomeCadEvento`, `dataCadEvento`, `descCadEvento`, `fotoCadEvento`, `precoCadEvento`, `idUsuario`) VALUES
+(1, 'Mundial De League Of Legends', '2025-12-12', 'MUNDIAL DE LOL', '6bd06ad4c8c900087a24c8e1f4656f6d.png', 49.90, 1),
+(4, 'Major Csgo 2', '2025-08-07', 'Mundial de Counter Strike 2', '6ce629455d3ab6f9c17882d5481ec91a.png', 49.90, 1),
+(5, 'Champions Valorant', '2026-12-11', 'Mundial De Valorantt', 'evento_6866ea982cbae.png', 49.90, 1),
+(6, 'BGS evento', '2026-01-12', 'Maior evento de games do Brasil', 'efafbadf2f30b3e2a4f04cebf941f64b.png', 49.90, 1),
+(7, 'Mundial De League Of Legendsaaa', '1231-03-12', 'asd', 'evento_6866ceca6eadf.png', 49.90, 1);
 
 -- --------------------------------------------------------
 
@@ -56,26 +57,20 @@ INSERT INTO `tbcadevento` (`idCadEvento`, `nomeCadEvento`, `dataCadEvento`, `des
 CREATE TABLE `tbpedidos` (
   `idPedido` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
-  `dataPedido` datetime NOT NULL DEFAULT current_timestamp(),
   `valorTotal` decimal(10,2) NOT NULL,
-  `formaPagamento` varchar(50) NOT NULL
+  `formaPagamento` varchar(50) NOT NULL,
+  `dataPedido` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbpedidos`
 --
 
-INSERT INTO `tbpedidos` (`idPedido`, `idUsuario`, `dataPedido`, `valorTotal`, `formaPagamento`) VALUES
-(1, 1, '2025-07-03 13:27:29', 149.70, ''),
-(2, 1, '2025-07-03 13:27:43', 49.90, ''),
-(3, 1, '2025-07-03 13:27:43', 49.90, ''),
-(4, 1, '2025-07-03 13:33:24', 149.00, ''),
-(5, 1, '2025-07-03 13:33:49', 99.90, ''),
-(6, 1, '2025-07-03 13:37:09', 50.00, ''),
-(7, 1, '2025-07-03 13:41:45', 89.82, 'pix'),
-(8, 1, '2025-07-03 13:46:16', 44.91, 'pix'),
-(9, 1, '2025-07-03 13:48:50', 44.91, 'pix'),
-(10, 1, '2025-07-03 13:52:31', 44.91, 'pix');
+INSERT INTO `tbpedidos` (`idPedido`, `idUsuario`, `valorTotal`, `formaPagamento`, `dataPedido`) VALUES
+(2, 1, 44.91, 'pix', '2025-07-04 17:59:08'),
+(3, 1, 942.03, 'pix', '2025-07-04 18:29:10'),
+(4, 1, 359.28, 'pix', '2025-07-04 19:33:18'),
+(5, 1, 314.01, 'pix', '2025-07-04 19:51:22');
 
 -- --------------------------------------------------------
 
@@ -86,7 +81,8 @@ INSERT INTO `tbpedidos` (`idPedido`, `idUsuario`, `dataPedido`, `valorTotal`, `f
 CREATE TABLE `tbpedidos_itens` (
   `idItemPedido` int(11) NOT NULL,
   `idPedido` int(11) NOT NULL,
-  `idCadEvento` int(11) NOT NULL,
+  `idCadEvento` int(11) DEFAULT NULL,
+  `idProduto` int(11) DEFAULT NULL,
   `quantidade` int(11) NOT NULL,
   `precoUnitario` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -95,21 +91,46 @@ CREATE TABLE `tbpedidos_itens` (
 -- Despejando dados para a tabela `tbpedidos_itens`
 --
 
-INSERT INTO `tbpedidos_itens` (`idItemPedido`, `idPedido`, `idCadEvento`, `quantidade`, `precoUnitario`) VALUES
-(1, 1, -5, 2, 49.90),
-(2, 1, -4, 1, 49.90),
-(3, 2, -5, 1, 49.90),
-(4, 3, -5, 1, 49.90),
-(5, 4, -2, 1, 50.00),
-(6, 4, -1, 1, 99.00),
-(7, 5, -2, 1, 50.00),
-(8, 5, -5, 1, 49.90),
-(9, 6, -2, 1, 50.00),
-(10, 7, -6, 1, 49.90),
-(11, 7, -5, 1, 49.90),
-(12, 8, -6, 1, 49.90),
-(13, 9, -1, 1, 49.90),
-(14, 10, -6, 1, 49.90);
+INSERT INTO `tbpedidos_itens` (`idItemPedido`, `idPedido`, `idCadEvento`, `idProduto`, `quantidade`, `precoUnitario`) VALUES
+(2, 2, 4, NULL, 1, 49.90),
+(3, 3, NULL, 1, 1, 99.00),
+(4, 3, NULL, 2, 2, 50.00),
+(5, 3, NULL, 3, 1, 199.00),
+(6, 3, 5, NULL, 7, 49.90),
+(7, 3, 6, NULL, 2, 49.90),
+(8, 3, 4, NULL, 1, 49.90),
+(9, 3, 7, NULL, 1, 49.90),
+(11, 3, 1, NULL, 1, 49.90),
+(12, 4, 5, NULL, 2, 49.90),
+(13, 4, 6, NULL, 2, 49.90),
+(14, 4, 4, NULL, 2, 49.90),
+(15, 4, 1, NULL, 1, 49.90),
+(16, 4, 7, NULL, 1, 49.90),
+(17, 5, NULL, 2, 2, 50.00),
+(18, 5, 6, NULL, 1, 49.90),
+(19, 5, NULL, 3, 1, 199.00);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbprodutos`
+--
+
+CREATE TABLE `tbprodutos` (
+  `idProduto` int(11) NOT NULL,
+  `nomeProduto` varchar(150) NOT NULL,
+  `precoProduto` decimal(10,2) NOT NULL,
+  `imagemProduto` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbprodutos`
+--
+
+INSERT INTO `tbprodutos` (`idProduto`, `nomeProduto`, `precoProduto`, `imagemProduto`) VALUES
+(1, 'Camisa Oficial', 99.00, 'img/camisas.png'),
+(2, 'Copo Gamer', 50.00, 'img/copos.png'),
+(3, 'Controle Custom', 199.00, 'img/controles.png');
 
 -- --------------------------------------------------------
 
@@ -135,7 +156,11 @@ INSERT INTO `tbusuario` (`idUsuario`, `nomeUsuario`, `emailUsuario`, `senhaUsuar
 (2, 'hyago', 'hyagodwdq@hyago', '$2y$10$E3Vyqixe.lZcISJV2YlO/e6dGgFgdvLZRc4K369naX9SPN4V2xUSe', 'foto3.png', 12),
 (3, 'a', 'as@as', '$2y$10$1tHTt3mPuIDVypzVQsJ1Su8XWNjdSibApW/BP74KFHh5WdjmAJlFC', 'foto4.png', 12),
 (4, 'abc', 'abc@abc', '$2y$10$xH5adT0XBPIPVtslL7VbROsB.3EHwDeLPM3fSk1rrXt5jOHM27DJC', 'foto5.png', 123),
-(5, 'bca', 'bca@bca', '$2y$10$Jm74Oa3ppnUUeDTjhZ4eJ.UzPHNsOi0gA/dvdvP7udEKXpqhC5xlC', 'foto6.png', 123);
+(5, 'bca', 'bca@bca', '$2y$10$Jm74Oa3ppnUUeDTjhZ4eJ.UzPHNsOi0gA/dvdvP7udEKXpqhC5xlC', 'foto6.png', 123),
+(6, 'hyago212', 'hyago212@h', '$2y$10$ozOsjBtCbi2JZhC/q1/3FuMhnWvdlQJg9sCDILAI3rzytQ5k2f0pO', 'foto3.jpg', 12),
+(7, 'hyago silva', 'hyago@gmail.com', '$2y$10$AOlXOK9.VrhUp5tSYQFqJe.r1IRpZVah/MexzETajukgc7KkU0eua', 'user_686b3d38563fa.jpg', 31),
+(8, 'hyago', 'hyago2@gmail.com', '$2y$10$M4CVv.9mtKENerJCHabCNuwSamcU6JUFDpcctatzHufzSLoAx/3g6', 'user_686b3d5256975.jpg', 123),
+(9, 'adm', 'adm@gmail.com', '$2y$10$RcVhNPgfwUsMrQZsKJJmUeDIsHbC12DEFxl8R1NhU4cPg12qSdGca', 'user_686b41e3d7daa.jpg', 32);
 
 --
 -- Índices para tabelas despejadas
@@ -153,14 +178,22 @@ ALTER TABLE `tbcadevento`
 --
 ALTER TABLE `tbpedidos`
   ADD PRIMARY KEY (`idPedido`),
-  ADD KEY `idUsuario` (`idUsuario`);
+  ADD KEY `fk_pedido_usuario_idx` (`idUsuario`);
 
 --
 -- Índices de tabela `tbpedidos_itens`
 --
 ALTER TABLE `tbpedidos_itens`
   ADD PRIMARY KEY (`idItemPedido`),
-  ADD KEY `idPedido` (`idPedido`);
+  ADD KEY `fk_item_pedido_idx` (`idPedido`),
+  ADD KEY `fk_item_evento_idx` (`idCadEvento`),
+  ADD KEY `idProduto` (`idProduto`);
+
+--
+-- Índices de tabela `tbprodutos`
+--
+ALTER TABLE `tbprodutos`
+  ADD PRIMARY KEY (`idProduto`);
 
 --
 -- Índices de tabela `tbusuario`
@@ -177,25 +210,31 @@ ALTER TABLE `tbusuario`
 -- AUTO_INCREMENT de tabela `tbcadevento`
 --
 ALTER TABLE `tbcadevento`
-  MODIFY `idCadEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idCadEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `tbpedidos`
 --
 ALTER TABLE `tbpedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbpedidos_itens`
 --
 ALTER TABLE `tbpedidos_itens`
-  MODIFY `idItemPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idItemPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT de tabela `tbprodutos`
+--
+ALTER TABLE `tbprodutos`
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tbusuario`
 --
 ALTER TABLE `tbusuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restrições para tabelas despejadas
@@ -211,13 +250,15 @@ ALTER TABLE `tbcadevento`
 -- Restrições para tabelas `tbpedidos`
 --
 ALTER TABLE `tbpedidos`
-  ADD CONSTRAINT `tbpedidos_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `tbusuario` (`idUsuario`);
+  ADD CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `tbusuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `tbpedidos_itens`
 --
 ALTER TABLE `tbpedidos_itens`
-  ADD CONSTRAINT `tbpedidos_itens_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `tbpedidos` (`idPedido`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_item_evento` FOREIGN KEY (`idCadEvento`) REFERENCES `tbcadevento` (`idCadEvento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_item_pedido` FOREIGN KEY (`idPedido`) REFERENCES `tbpedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbpedidos_itens_ibfk_1` FOREIGN KEY (`idProduto`) REFERENCES `tbprodutos` (`idProduto`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

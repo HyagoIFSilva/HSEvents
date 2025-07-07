@@ -1,61 +1,56 @@
 <?php
+require_once 'config.php';
+include 'conexao.php';
 session_start();
-include 'conexao.php'; 
- 
+
 if (!isset($_SESSION['idUsuario'])) {
-    header('Location: login.php');
+    header('Location: ' . BASE_URL . 'login.php');
     exit();
 }
 
- 
-if (!isset($_POST['idCadEvento'])) {
-     
-    header('Location: galeria.php');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['idCadEvento'])) {
+    header('Location: ' . BASE_URL . 'galeria.php');
     exit();
 }
 
 $idEvento = $_POST['idCadEvento'];
 $idUsuario = $_SESSION['idUsuario'];
-$caminhoUpload = 'uploads/';
 
 try {
-    
-    $sql_select = "SELECT fotoCadEvento FROM tbcadevento WHERE idCadEvento = :idEvento AND idUsuario = :idUsuario";
-    $stmt_select = $con->prepare($sql_select);
-    $stmt_select->execute([
-        ':idEvento' => $idEvento,
-        ':idUsuario' => $idUsuario
-    ]);
-    
-    $evento = $stmt_select->fetch(PDO::FETCH_ASSOC);
-
+    $stmt = $con->prepare("SELECT fotoCadEvento FROM tbcadevento WHERE idCadEvento = ? AND idUsuario = ?");
+    $stmt->execute([$idEvento, $idUsuario]);
+    $evento = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($evento) {
+        $stmtDelete = $con->prepare("DELETE FROM tbcadevento WHERE idCadEvento = ? AND idUsuario = ?");
+        if ($stmtDelete->execute([$idEvento, $idUsuario])) {
+            
+          
+            $caminhoImagem = 'uploads/' . $evento['fotoCadEvento'];
+            if (file_exists($caminhoImagem)) {
+                unlink($caminhoImagem);
+            }
 
-        $arquivoFoto = $caminhoUpload . $evento['fotoCadEvento'];
-        if (file_exists($arquivoFoto)) {
-            unlink($arquivoFoto); 
+            $_SESSION['toast'] = [
+                'type' => 'success',
+                'message' => 'Evento excluído com sucesso!'
+            ];
         }
-
-        
-        $sql_delete = "DELETE FROM tbcadevento WHERE idCadEvento = :idEvento";
-        $stmt_delete = $con->prepare($sql_delete);
-        $stmt_delete->execute([':idEvento' => $idEvento]);
-        
-       
-        $_SESSION['evento_excluido'] = "Evento excluído com sucesso!";
-
     } else {
-       
-        $_SESSION['erro_exclusao'] = "Não foi possível excluir o evento.";
+  
+        $_SESSION['toast'] = [
+            'type' => 'error',
+            'message' => 'Erro: Você não tem permissão para excluir.'
+        ];
     }
 
 } catch (PDOException $e) {
-   
-    $_SESSION['erro_exclusao'] = "Erro ao excluir o evento: " . $e->getMessage();
+    error_log("Erro ao excluir evento: " . $e->getMessage());
+    $_SESSION['toast'] = [
+        'type' => 'error',
+        'message' => 'Ocorreu um erro no servidor.'
+    ];
 }
 
-
-header('Location: galeria.php');
+header('Location: ' . BASE_URL . 'galeria.php');
 exit();
-?>

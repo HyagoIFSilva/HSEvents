@@ -5,13 +5,8 @@ if (!isset($_SESSION['idUsuario'])) {
     exit();
 }
 
-// Pega a mensagem de erro da sessão, se existir.
-$cart_error = null;
-if (isset($_SESSION['cart_error'])) {
-    $cart_error = $_SESSION['cart_error'];
-    // Limpa a mensagem da sessão para que não apareça novamente.
-    unset($_SESSION['cart_error']);
-}
+$cart_error = $_SESSION['cart_error'] ?? null;
+unset($_SESSION['cart_error']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -105,7 +100,7 @@ if (isset($_SESSION['cart_error'])) {
                     </div>
                 </div>
                 <input type="hidden" name="cart_data" id="cart-data-input">
-                <button type="submit" class="btn-confirm">Finalizar Compra</button>
+                <button type="submit" class="btn-confirm" id="btn-submit-checkout">Finalizar Compra</button>
             </form>
         </div>
 
@@ -125,11 +120,10 @@ if (isset($_SESSION['cart_error'])) {
         document.addEventListener('DOMContentLoaded', () => {
             const cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
             
-            // MUDANÇA 2: VERIFICAÇÃO DE CARRINHO VAZIO
             if (cart.length === 0) {
                 alert("Seu carrinho está vazio! Você será redirecionado para a galeria de eventos.");
                 window.location.href = 'galeria.php';
-                return; // Impede a execução do resto do script
+                return;
             }
 
             const summaryContainer = document.getElementById('order-summary');
@@ -141,6 +135,8 @@ if (isset($_SESSION['cart_error'])) {
             const paymentOptions = document.querySelectorAll('input[name="forma_pagamento"]');
             const creditCardForm = document.getElementById('credit-card-info');
             const cepInput = document.getElementById('cep');
+            const checkoutForm = document.getElementById('checkout-form');
+            const submitButton = document.getElementById('btn-submit-checkout');
             
             let subtotal = 0;
 
@@ -149,7 +145,6 @@ if (isset($_SESSION['cart_error'])) {
                 let discount = 0;
                 const selectedPayment = document.querySelector('input[name="forma_pagamento"]:checked').value;
 
-                // Esconde o formulário do cartão e torna os campos não-obrigatórios por padrão
                 creditCardForm.classList.remove('visible');
                 const creditCardFields = creditCardForm.querySelectorAll('input');
                 creditCardFields.forEach(input => input.required = false);
@@ -160,7 +155,6 @@ if (isset($_SESSION['cart_error'])) {
                     discountLineEl.style.display = 'flex';
                 } else if (selectedPayment === 'credito') {
                     discountLineEl.style.display = 'none';
-                    // Mostra o formulário do cartão e torna os campos obrigatórios
                     creditCardForm.classList.add('visible');
                     creditCardFields.forEach(input => input.required = true);
                 }
@@ -170,7 +164,6 @@ if (isset($_SESSION['cart_error'])) {
                 totalPriceEl.textContent = `R$ ${finalTotal.toFixed(2).replace('.', ',')}`;
             }
 
-            // Popula o resumo do pedido
             cart.forEach(item => {
                 const itemEl = document.createElement('div');
                 itemEl.classList.add('summary-item');
@@ -179,13 +172,10 @@ if (isset($_SESSION['cart_error'])) {
                 subtotal += item.price * item.quantity;
             });
 
-            // Preenche o campo hidden com os dados do carrinho para enviar ao PHP
             cartDataInput.value = JSON.stringify(cart);
             
-            // Adiciona listener para recalcular o total quando a forma de pagamento mudar
             paymentOptions.forEach(option => option.addEventListener('change', calculateTotal));
             
-            // Função para preencher o formulário de endereço
             const preencheFormulario = (endereco) => {
                 document.getElementById('rua').value = endereco.logradouro;
                 document.getElementById('bairro').value = endereco.bairro;
@@ -193,7 +183,6 @@ if (isset($_SESSION['cart_error'])) {
                 document.getElementById('estado').value = endereco.uf;
             }
 
-            // Busca o CEP na API ViaCEP
             cepInput.addEventListener('blur', async () => {
                 const cep = cepInput.value.replace(/\D/g, '');
                 if (cep.length === 8) {
@@ -209,8 +198,14 @@ if (isset($_SESSION['cart_error'])) {
                     }
                 }
             });
+
+            if(checkoutForm && submitButton) {
+                checkoutForm.addEventListener('submit', () => {
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+                });
+            }
             
-            // Calcula o total inicial quando a página carrega
             calculateTotal();
         });
     </script>

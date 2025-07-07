@@ -1,151 +1,71 @@
-<?php
-session_start();
-include 'conexao.php';
+<?php 
+    require_once 'config.php';
+    $page_title = "Cadastro"; 
+    include 'header.php';
 
-if (!isset($_SESSION['idUsuario'])) {
-    header('Location: login.php');
-    exit();
-}
-
-if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' &&
-    isset($_FILES['fotoCadEvento']) &&
-    $_FILES['fotoCadEvento']['error'] === 0
-) {
-
-    $titulo      = $_POST['nomeCadEvento'];
-    $data_evento = $_POST['dataCadEvento'];
-    $descricao   = $_POST['descCadEvento'];
-
-    $imagem    = $_FILES['fotoCadEvento'];
-    $nome_img  = $imagem['name'];
-    $temp_img  = $imagem['tmp_name'];
-
-    $extensao   = strtolower(pathinfo($nome_img, PATHINFO_EXTENSION));
-    $permitidas = ['jpg', 'jpeg', 'png', 'gif', 'jfif'];
-
-    if (!in_array($extensao, $permitidas)) {
-        $_SESSION['msg_erro'] = "Erro: Formato de imagem inválido.";
-        header('Location: cadastrar_evento.php');
+    if (isset($_SESSION['idUsuario'])) {
+        header('Location: ' . BASE_URL . 'dashboard.php');
         exit();
     }
-
-    $pasta    = 'uploads/';
-    $contador = 1;
-    foreach (glob($pasta . "evento*.*") as $arquivo) {
-        if (preg_match('/evento(\d+)\./', basename($arquivo), $m)) {
-            $contador = max($contador, (int)$m[1] + 1);
-        }
-    }
-    $nome_final    = "evento{$contador}.{$extensao}";
-    $caminho_final = $pasta . $nome_final;
-
-    if (move_uploaded_file($temp_img, $caminho_final)) {
-        try {
-            $sql = "INSERT INTO tbcadevento
-                    (nomeCadEvento, dataCadEvento, descCadEvento, fotoCadEvento, idUsuario)
-                    VALUES (?,?,?,?,?)";
-            $stmt = $con->prepare($sql);
-            $stmt->execute([
-                $titulo,
-                $data_evento,
-                $descricao,
-                $nome_final,
-                $_SESSION['idUsuario']
-            ]);
-
-            $_SESSION['evento_sucesso'] = true;
-            header('Location: cadastrar_evento.php');
-            exit();
-
-        } catch (PDOException $e) {
-            $_SESSION['msg_erro'] = "Erro ao cadastrar evento: " . $e->getMessage();
-            header('Location: cadastrar_evento.php');
-            exit();
-        }
-    } else {
-        $_SESSION['msg_erro'] = "Erro ao fazer upload da imagem.";
-        header('Location: cadastrar_evento.php');
-        exit();
-    }
-} else {
-    $_SESSION['msg_erro'] = "Envie todos os campos e uma imagem válida.";
-    header('Location: cadastrar_evento.php');
-    exit();
-}
 ?>
 
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>Styles/auth.css"/> 
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela Cadastro</title>
-    <link rel="stylesheet" href="./Styles/login.css">
-
-    <?php if ($redirect): ?>
-        <script>
-           
-            setTimeout(() => { window.location.href = "<?php echo $redirect; ?>"; }, 3000);
-        </script>
-    <?php endif; ?>
-</head>
-
-<body>
-<header class="navbar">
-    <div class="navbar-logo">
-        <img src="./img/logo.png" alt="Logo" width="60" height="60">
-    </div>
-    <nav class="navbar-links">
-        <a href="./cadastro.php">Registrar</a>
-        <a href="./login.php">Login</a>
-        <a href="./galeria.php">Galeria</a>
-        <a href="./home.php">Home</a>
-    </nav>
-</header>
-
-<section>
+<section class="auth-section">
     <div class="form-box">
-
-        <?php if ($mensagem): ?>
-            <div class="<?php echo $classe; ?>"><?php echo $mensagem; ?></div>
-        <?php endif; ?>
-
-        <?php if (!$redirect): ?>
-            <form method="POST" action="">
-                <h2>Registrar</h2>
+         <div class="form-content">
+            <form action="processa_cadastro.php" method="POST" enctype="multipart/form-data">
+                <h2>Cadastro</h2>
+                
+                <?php 
+                if(isset($_SESSION['register_error'])) {
+                    echo '<div class="login-message error">' . $_SESSION['register_error'] . '</div>';
+                    unset($_SESSION['register_error']);
+                }
+                ?>
+            
+                <div class="inputbox">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <input type="text" name="nomeUsuario" required>
+                    <label>Nome Completo</label>
+                </div>
                 <div class="inputbox">
                     <ion-icon name="mail-outline"></ion-icon>
-                    <input type="text" name="nome" required>
-                    <label>Digite seu Nome:</label>
+                    <input type="email" name="emailUsuario" required>
+                    <label>E-mail</label>
                 </div>
-
-                <div class="inputbox">
-                    <ion-icon name="mail-outline"></ion-icon>
-                    <input type="text" name="login" required>
-                    <label>Digite seu e-mail:</label>
+                 <div class="inputbox">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <input type="number" name="idadeUsuario" required>
+                    <label>Idade</label>
                 </div>
-
                 <div class="inputbox">
                     <ion-icon name="lock-closed-outline"></ion-icon>
-                    <input type="password" name="senha" required>
-                    <label>Digite sua senha:</label>
+                    <input type="password" name="senhaUsuario" required>
+                    <label>Senha</label>
                 </div>
 
-                <button type="submit">Enviar</button>
-
+                <div class="image-upload-group">
+                    <div class="image-preview-container">
+                        <img src="" id="image-preview" alt="Preview da sua imagem">
+                        <span id="preview-placeholder"><ion-icon name="image-outline"></ion-icon></span>
+                    </div>
+                    <label for="foto" class="file-label">Escolha sua foto de perfil (Opcional)</label>
+                    <input type="file" name="foto" id="foto" class="file-input" accept="image/*">
+                </div>
+                
+                <button type="submit" class="auth-button">Cadastrar</button>
                 <div class="register">
-                    <p>Já tem uma conta? <a href="login.php">Login</a></p>
+                    <p>Já tem uma conta? <a href="login.php">Faça o login</a></p>
                 </div>
             </form>
-        <?php endif; ?>
-
+        </div>
     </div>
 </section>
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</body>
-</html>
-
+<script src="<?php echo BASE_URL; ?>js/auth.js"></script>
+<?php 
+    include 'footer.php'; 
+?>

@@ -1,103 +1,92 @@
-<?php
-session_start();
-include 'conexao.php';
-
-$erro     = '';
-$mensagem = '';
-$classe   = '';
-$redirect = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = trim($_POST['login'] ?? '');
-    $senha   = trim($_POST['senha'] ?? '');
-
-    $sql  = 'SELECT idUsuario, nomeUsuario, senhaUsuario, foto FROM tbusuario WHERE emailUsuario = ?';
-    $stmt = $con->prepare($sql);
-    $stmt->execute([$usuario]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && password_verify($senha, $user['senhaUsuario'])) {
-        
-        $_SESSION['idUsuario'] = $user['idUsuario'];
-        $_SESSION['usuario']   = $usuario; 
-        $_SESSION['nome']      = $user['nomeUsuario'];
-        $_SESSION['foto']      = $user['foto']; 
-
-        $mensagem = 'Login efetuado com sucesso! Redirecionando...';
+<?php 
+    require_once 'config.php';
+    include 'conexao.php';
     
-        $classe   = 'login-message success';
-        $redirect = 'dashboard.php';
-
-    } else {
-       
-        $erro   = 'Usuário ou senha incorretos.';
-   
-        $classe = 'login-message error';
+    $page_title = "Login"; 
+    
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
-}
-?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela Login</title>
-    <link rel="stylesheet" href="./Styles/login.css">
 
-    <?php if ($redirect): ?>
-        <script>
-            setTimeout(() => { window.location.href = "<?php echo $redirect; ?>"; }, 2000);
-        </script>
-    <?php endif; ?>
-</head>
-<body>
-<header class="navbar">
-    <div class="navbar-logo">
-        <img src="./img/logo.png" alt="Logo" width="60" height="60">
-    </div>
-    <nav class="navbar-links">
-        <a href="./cadastro.php">Registrar</a>
-        <a href="./galeria.php">Galeria</a>
-        <a href="./home.php">Home</a>
-    </nav>
-</header>
-
-<section>
-    <div class="form-box">
-        <div class="form-content"> <?php if ($mensagem || $erro): ?>
-                <div class="<?php echo $classe; ?>">
-                    <?php echo $mensagem ?: $erro; ?>
+    if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
+        unset($_SESSION['login_success']);
+        include 'header.php';
+        echo '<link rel="stylesheet" href="' . BASE_URL . 'Styles/auth.css"/>';
+        echo '<section class="auth-section">
+                <div class="form-box">
+                    <div class="form-content">
+                        <div class="login-message success">Login efetuado com sucesso!</div>
+                        <p style="text-align: center; color: #fff;">
+                            Você será redirecionado para seu painel em <span id="countdown">3</span>...
+                        </p>
+                    </div>
                 </div>
-            <?php endif; ?>
+              </section>';
+        
+        echo '<script>
+                let seconds = 3;
+                const countdownElement = document.getElementById("countdown");
+                const timer = setInterval(() => {
+                    seconds--;
+                    if(countdownElement) countdownElement.textContent = seconds;
+                    if (seconds <= 0) {
+                        clearInterval(timer);
+                        window.location.href = "' . BASE_URL . 'dashboard.php";
+                    }
+                }, 1000);
+              </script>';
+        include 'footer.php';
+        exit();
+    }
 
-            <?php if (!$redirect):?>
-                <form method="POST" action="login.php">
-                    <h2>Login</h2>
-                    <div class="inputbox">
-                        <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" name="login" required>
-                        <label>Digite seu e-mail:</label>
-                    </div>
-                    <div class="inputbox">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input type="password" name="senha" required>
-                        <label>Senha:</label>
-                    </div>
-                    <div class="forget">
-                        <label><a href="#">Esqueceu a senha?</a></label>
-                    </div>
-                    <button type="submit">Log in</button>
-                    <div class="register">
-                        <p>Não tem uma conta? <a href="./registrar_usuario.php">Registre-se</a></p>
-                    </div>
-                </form>
-            <?php endif; ?>
+    if (isset($_SESSION['idUsuario'])) {
+        header('Location: ' . BASE_URL . 'dashboard.php');
+        exit();
+    }
+    
+    include 'header.php';
+?>
 
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>Styles/auth.css"/> 
+
+<section class="auth-section">
+    <div class="form-box">
+        <div class="form-content">
+            <form method="POST" action="processa_login.php">
+                <h2>Login</h2>
+                
+                <?php 
+                if(isset($_SESSION['login_error'])) {
+                    echo '<div class="login-message error">' . $_SESSION['login_error'] . '</div>';
+                    unset($_SESSION['login_error']);
+                }
+                ?>
+
+                <div class="inputbox">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" name="emailUsuario" required>
+                    <label>E-mail</label>
+                </div>
+                <div class="inputbox">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" name="senhaUsuario" required>
+                    <label>Senha</label>
+                </div>
+                <div class="forget">
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+                <button type="submit" class="auth-button">Entrar</button>
+                <div class="register">
+                    <p>Não tem uma conta? <a href="cadastro.php">Registre-se</a></p>
+                </div>
+            </form>
         </div>
     </div>
 </section>
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-</body>
-</html>
+
+<?php 
+    include 'footer.php'; 
+?>

@@ -1,0 +1,220 @@
+:root {
+    --cor-primaria: #7f00ff;
+    --cor-secundaria: #a759f5;
+    --cor-fundo-transparente: rgba(26, 26, 26, 0.75);
+    --cor-borda: rgba(255, 255, 255, 0.5);
+    --cor-texto: #ffffff;
+    --cor-texto-label: #cccccc;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.auth-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: url('../img/background.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-box {
+    position: relative;
+    width: 400px;
+    background: var(--cor-fundo-transparente);
+    border: 2px solid var(--cor-borda);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 3rem;
+}
+
+.form-content {
+    width: 100%;
+}
+
+.form-content h2 {
+    font-size: 2em;
+    color: var(--cor-texto);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.inputbox {
+    position: relative;
+    margin: 35px 0;
+    width: 100%;
+    border-bottom: 2px solid var(--cor-texto);
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: var(--cor-texto-label);
+    font-size: 1em;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.inputbox input:focus ~ label,
+.inputbox input:valid ~ label {
+    top: -5px;
+    color: var(--cor-secundaria);
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+    color: var(--cor-texto);
+}
+
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: var(--cor-texto-label);
+    font-size: 1.2em;
+    top: 20px;
+}
+
+.forget {
+    margin: -15px 0 15px;
+    font-size: .9em;
+    color: var(--cor-texto-label);
+    text-align: center;
+}
+
+.forget a {
+    color: var(--cor-texto-label);
+    text-decoration: none;
+}
+
+.forget a:hover {
+    text-decoration: underline;
+}
+
+.auth-button {
+    width: 100%;
+    height: 45px;
+    border-radius: 40px;
+    background: var(--cor-primaria);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-button:hover {
+    background: var(--cor-secundaria);
+    box-shadow: 0 0 15px var(--cor-secundaria);
+}
+
+.register {
+    font-size: .9em;
+    color: var(--cor-texto-label);
+    text-align: center;
+    margin: 25px 0 10px;
+}
+
+.register p a {
+    text-decoration: none;
+    color: var(--cor-secundaria);
+    font-weight: 600;
+}
+
+.register p a:hover {
+    text-decoration: underline;
+}
+
+.login-message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-in-out;
+}
+.login-message.error {
+    color: #f8d7da;
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid #dc3545;
+}
+.login-message.success {
+    color: #e9d5ff;
+    background-color: rgba(127, 0, 255, 0.2);
+    border: 1px solid var(--cor-primaria);
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+.image-upload-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+    margin-top: 15px;
+}
+
+.image-preview-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px dashed var(--cor-secundaria);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    background-color: rgba(0,0,0,0.2);
+    overflow: hidden; 
+    transition: border-color 0.3s;
+}
+
+.image-preview-container:hover {
+    border-color: var(--cor-primaria);
+}
+
+#preview-placeholder {
+    font-size: 3rem;
+    color: var(--cor-secundaria);
+}
+
+#image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none; 
+}
+.file-input {
+    display: none;
+}
+
+.file-label {
+    color: var(--cor-texto-label);
+    cursor: pointer;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.file-label:hover {
+    color: #fff;
+    background-color: rgba(127, 0, 255, 0.2);
+}

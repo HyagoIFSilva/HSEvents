@@ -349,7 +349,7 @@ body {
     -webkit-box-orient: vertical; 
     overflow: hidden; 
 }
-
+ 
 .card-footer { 
     padding: 15px 20px; 
     border-top: 1px solid var(--cor-borda); 

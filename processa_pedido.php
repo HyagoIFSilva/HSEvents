@@ -2,12 +2,11 @@
 session_start();
 include 'conexao.php';
 
-// 1. Validação inicial
+// 1. Validações iniciais
 if (!isset($_SESSION['idUsuario'])) {
     header('Location: login.php');
     exit();
 }
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['cart_data'])) {
     header('Location: checkout.php');
     exit;
@@ -18,60 +17,78 @@ $idUsuario = $_SESSION['idUsuario'];
 $cartData = json_decode($_POST['cart_data'], true);
 $formaPagamento = $_POST['forma_pagamento'] ?? 'credito';
 
-// 3. Verifica se o carrinho é válido
 if (json_last_error() !== JSON_ERROR_NONE || !is_array($cartData) || empty($cartData)) {
     $_SESSION['cart_error'] = "Seu carrinho está vazio ou os dados são inválidos.";
     header('Location: checkout.php');
     exit;
 }
-
-// 4. Valida campos de cartão de crédito, se necessário
 if ($formaPagamento === 'credito') {
     if (empty($_POST['card_number']) || empty($_POST['card_name']) || empty($_POST['card_expiry']) || empty($_POST['card_cvc'])) {
         die("Erro: Por favor, preencha todos os dados do cartão de crédito.");
     }
 }
 
-// 5. Bloco de segurança para validar a integridade do carrinho
 try {
-    $idsEventos = [];
+    // Prepara as queries uma vez fora do loop
+    $stmtEvento = $con->prepare("SELECT nomeCadEvento, precoCadEvento FROM tbcadevento WHERE idCadEvento = ?");
+    $stmtProduto = $con->prepare("SELECT nomeProduto, precoProduto FROM tbprodutos WHERE idProduto = ?");
+
+    $subtotalReal = 0;
+    $carrinhoValidado = [];
+    $itensInvalidosEncontrados = false;
+
     foreach ($cartData as $item) {
-        // --- CORREÇÃO DEFINITIVA APLICADA AQUI ---
-        // Usamos preg_replace para pegar APENAS os dígitos e ignorar o sinal de menos ('-').
-        $idsEventos[] = (int) preg_replace('/[^0-9]/', '', $item['id']);
-    }
-
-    if (!empty($idsEventos)) {
-        $placeholders = implode(',', array_fill(0, count($idsEventos), '?'));
+        $itemId = $item['id'];
+        $quantidade = (int) $item['quantity'];
         
-        $sqlVerifica = "SELECT COUNT(*) FROM tbcadevento WHERE idCadEvento IN ($placeholders)";
-        $stmtVerifica = $con->prepare($sqlVerifica);
-        $stmtVerifica->execute($idsEventos);
-        $countEventosExistentes = $stmtVerifica->fetchColumn();
+        if ($quantidade <= 0) {
+            $itensInvalidosEncontrados = true;
+            continue;
+        }
 
-        if ($countEventosExistentes < count($idsEventos)) {
-            $_SESSION['cart_error'] = "Erro: Um ou mais eventos no seu carrinho não estão mais disponíveis. Por favor, revise seu carrinho e tente novamente.";
-            header('Location: checkout.php');
-            exit();
+        $itemPrice = 0;
+        $idParaSalvar = 0;
+        $tipoDoItem = '';
+
+        if (strpos($itemId, 'evt-') === 0) {
+            $tipoDoItem = 'evento';
+            $idParaSalvar = (int) preg_replace('/[^0-9]/', '', $itemId);
+            $stmtEvento->execute([$idParaSalvar]);
+            $itemDoBanco = $stmtEvento->fetch(PDO::FETCH_ASSOC);
+
+            if ($itemDoBanco) {
+                $itemPrice = (float) $itemDoBanco['precoCadEvento'];
+            }
+        } elseif (strpos($itemId, 'prod-') === 0) {
+            $tipoDoItem = 'produto';
+            $idParaSalvar = (int) preg_replace('/[^0-9]/', '', $itemId);
+            $stmtProduto->execute([$idParaSalvar]);
+            $itemDoBanco = $stmtProduto->fetch(PDO::FETCH_ASSOC);
+
+            if ($itemDoBanco) {
+                $itemPrice = (float) $itemDoBanco['precoProduto'];
+            }
+        }
+
+        if ($itemPrice > 0) {
+            $subtotalReal += $itemPrice * $quantidade;
+            $carrinhoValidado[] = ['id' => $idParaSalvar, 'tipo' => $tipoDoItem, 'preco' => $itemPrice, 'qtd' => $quantidade];
+        } else {
+            $itensInvalidosEncontrados = true;
         }
     }
-} catch (Exception $e) {
-    die("Erro de sistema ao verificar os itens do carrinho: " . $e->getMessage());
-}
 
-// 6. Calcula o valor total do pedido
-$subtotal = 0;
-foreach ($cartData as $item) {
-    $subtotal += $item['price'] * $item['quantity'];
-}
+    if ($itensInvalidosEncontrados || empty($carrinhoValidado)) {
+        $_SESSION['cart_error'] = "Erro: Um ou mais itens no seu carrinho não estão mais disponíveis. Por favor, revise seu carrinho.";
+        header('Location: checkout.php');
+        exit();
+    }
 
-$valorTotalFinal = $subtotal;
-if ($formaPagamento === 'pix' || $formaPagamento === 'boleto') {
-    $valorTotalFinal = $subtotal * 0.90;
-}
+    $valorTotalFinal = $subtotalReal;
+    if ($formaPagamento === 'pix' || $formaPagamento === 'boleto') {
+        $valorTotalFinal = $subtotalReal * 0.90;
+    }
 
-// 7. Processa o pedido no banco de dados
-try {
     $con->beginTransaction();
 
     $sqlPedido = "INSERT INTO tbpedidos (idUsuario, valorTotal, formaPagamento) VALUES (?, ?, ?)";
@@ -79,17 +96,19 @@ try {
     $stmtPedido->execute([$idUsuario, $valorTotalFinal, $formaPagamento]);
     $idPedido = $con->lastInsertId();
 
-    $sqlItem = "INSERT INTO tbpedidos_itens (idPedido, idCadEvento, quantidade, precoUnitario) VALUES (?, ?, ?, ?)";
+    $sqlItem = "INSERT INTO tbpedidos_itens (idPedido, idCadEvento, idProduto, quantidade, precoUnitario) VALUES (?, ?, ?, ?, ?)";
     $stmtItem = $con->prepare($sqlItem);
 
-    foreach ($cartData as $item) {
-        // A mesma correção aqui para garantir consistência ao salvar no banco.
-        $idEventoNumerico = (int) preg_replace('/[^0-9]/', '', $item['id']);
+    foreach ($carrinhoValidado as $item) {
+        $idEvento = ($item['tipo'] == 'evento') ? $item['id'] : null;
+        $idProduto = ($item['tipo'] == 'produto') ? $item['id'] : null;
+        
         $stmtItem->execute([
             $idPedido,
-            $idEventoNumerico,
-            $item['quantity'],
-            $item['price']
+            $idEvento,
+            $idProduto,
+            $item['qtd'],
+            $item['preco']
         ]);
     }
 
@@ -100,6 +119,10 @@ try {
     exit;
 
 } catch (Exception $e) {
-    $con->rollBack();
-    die("Erro ao processar o pedido: " . $e->getMessage());
+    if ($con->inTransaction()) {
+        $con->rollBack();
+    }
+    error_log("Erro em processa_pedido.php: " . $e->getMessage());
+    die("Desculpe, ocorreu um erro inesperado ao processar seu pedido. Por favor, tente novamente mais tarde.");
 }
+?>

@@ -1,59 +1,75 @@
-# 🚀HSEvents
-
+# 🚀 HSEvents - Plataforma de Gerenciamento de Eventos
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 
 <br>
 
-![Screenshot da Aplicação](https://i.imgur.com/w1iLg9i.png)
-*Tela principal da galeria de eventos do usuário.*
+![Screenshot do Dashboard](https://i.imgur.com/uGzJg28.png)
+*Painel de controle analítico com métricas de vendas e gráficos dinâmicos.*
 
 ## 📖 Sobre o Projeto
 
-**Eventos Gamer** é uma plataforma web completa e dinâmica desenvolvida para a criação, gerenciamento e divulgação de eventos. A aplicação conta com um sistema de autenticação de usuários, um painel de controle para o gerenciamento de eventos (CRUD), e uma interface pública com galeria e um sistema de e-commerce para a "venda" de ingressos.
+**HSEvents** é uma plataforma web completa e dinâmica desenvolvida para a criação, gerenciamento e divulgação de eventos. A aplicação conta com um sistema de autenticação de usuários, um painel de controle analítico para o gerenciamento de eventos (CRUD), e uma interface pública com galeria, detalhes de eventos e um sistema de e-commerce para a "venda" de ingressos e produtos.
 
-O projeto foi construído com foco em uma interface moderna, responsiva e uma experiência de usuário fluida, utilizando PHP no backend para a lógica de negócios e JavaScript para interatividade no frontend.
+O projeto foi construído com foco em uma interface moderna, responsiva e uma experiência de usuário fluida, utilizando PHP no backend para a lógica de negócios e JavaScript para interatividade e visualização de dados no frontend.
 
 ---
 
 ## ✨ Funcionalidades Principais
 
-* **👤 Sistema de Autenticação:** Cadastro e Login de usuários com senhas criptografadas.
-* **🖥️ Painel de Controle (Dashboard):** Área restrita onde o usuário logado pode gerenciar seus eventos.
-* **✍️ CRUD de Eventos:** Funcionalidade completa para Criar, Ler, Atualizar e Deletar eventos, com upload de imagens.
-* **🖼️ Galeria Dinâmica:** Uma galeria de eventos moderna e responsiva, com um carrossel dinâmico que exibe os eventos cadastrados pelo usuário.
-* **🛒 Carrinho de Compras:** Sistema de e-commerce no frontend que permite adicionar "ingressos" de eventos a um carrinho lateral, com persistência de dados no `localStorage`.
-* **🎨 Interface Moderna:** Design com tema escuro, paleta de cores coesa, animações e efeitos de hover para uma experiência de usuário profissional.
-* **📱 Design Responsivo:** A interface se adapta para uma visualização agradável em desktops, tablets e celulares.
+* **👤 Sistema de Autenticação Completo:**
+    * Cadastro de novos usuários com upload de foto de perfil.
+    * Login seguro com verificação de senhas criptografadas (`password_hash` e `password_verify`).
+    * Sessões de usuário e sistema de Logout.
+
+* **🖥️ Dashboard Analítico com Gráficos:**
+    * Painel de controle que exibe métricas em tempo real: Faturamento Total, Ingressos Vendidos, Eventos Criados e Ticket Médio.
+    * Gráficos dinâmicos (criados com Chart.js) para visualização de Faturamento Mensal e Top 5 Eventos mais vendidos.
+    * Animações nos contadores para uma experiência mais dinâmica.
+
+* **✍️ Gerenciamento de Eventos (CRUD):**
+    * Formulários para **C**riar, **E**ditar e **E**xcluir eventos.
+    * Upload de imagens para cada evento, com geração de nomes de arquivo únicos.
+    * Validação de segurança para garantir que um usuário só possa gerenciar seus próprios eventos.
+
+* **🛒 E-commerce e Carrinho de Compras:**
+    * Sistema de carrinho de compras funcional em todas as páginas públicas.
+    * Adição de ingressos e produtos ao carrinho.
+    * Cálculo de subtotal e processamento de pedidos com armazenamento no banco de dados.
+    * Validação de itens e preços no lado do servidor para maior segurança.
+
+* **🖼️ Interface Pública Dinâmica e Profissional:**
+    * **Página Home** com seções dinâmicas e animações de scroll.
+    * **Galeria de Eventos** com busca por nome e paginação implícita.
+    * **Página de Detalhes** para cada evento.
+    * **Menu de Navegação Responsivo** ("hambúrguer") que se adapta a telas de celular.
+    * **Notificações "Toast"** para feedback de ações do usuário (ex: "Item adicionado!", "Evento excluído!").
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-Este projeto foi construído com as seguintes tecnologias:
-
 * **Backend:**
     * **PHP 8+**
-    * **PDO** para conexão segura com o banco de dados.
+    * **PDO** para conexão segura com o banco de dados e prevenção de SQL Injection.
 * **Frontend:**
     * **HTML5**
-    * **CSS3** (Flexbox, Grid, Variáveis CSS, Animações)
-    * **JavaScript (ES6+)** (Manipulação do DOM, Eventos, `localStorage`)
+    * **CSS3** (Flexbox, Grid, Variáveis CSS, Animações, Gradientes)
+    * **JavaScript (ES6+)** (DOM, Eventos, `localStorage`, `fetch`, `FileReader` API)
 * **Banco de Dados:**
     * **MySQL** ou **MariaDB**
 * **Bibliotecas e Ferramentas:**
+    * [**Chart.js**](https://www.chartjs.org/) para a criação dos gráficos do dashboard.
+    * [**Swiper.js**](https://swiperjs.com/) para o carrossel de imagens da galeria.
     * [Google Fonts (Poppins)](https://fonts.google.com/specimen/Poppins)
-    * [Font Awesome](https://fontawesome.com/) (Ícones)
-    * [ionicons](https://ionic.io/ionicons) (Ícones na tela de login)
+    * [Font Awesome](https://fontawesome.com/) & [Ionicons](https://ionic.io/ionicons) para ícones.
 
 ---
 
 ## ⚙️ Instalação e Configuração
-
-Para rodar este projeto localmente, siga os passos abaixo:
 
 **Pré-requisitos:**
 * Um ambiente de desenvolvimento local como [XAMPP](https://www.apachefriends.org/index.html) ou WAMP.
@@ -62,82 +78,128 @@ Para rodar este projeto localmente, siga os passos abaixo:
 
 **Passos:**
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    ```
+1.  **Clone o repositório.**
 
-2.  **Mova o projeto:**
-    * Mova a pasta do projeto para o diretório raiz do seu servidor web (ex: `htdocs` no XAMPP).
-
-3.  **Banco de Dados:**
-    * Crie um novo banco de dados no seu servidor (ex: `bd_eventos_gamer`).
-    * Execute o seguinte script SQL para criar as tabelas necessárias:
+2.  **Banco de Dados:**
+    * Crie um novo banco de dados (ex: `dbevento`).
+    * Execute o script SQL abaixo para criar **todas** as tabelas necessárias com a estrutura correta.
 
     ```sql
     -- Tabela de usuários
     CREATE TABLE `tbusuario` (
-      `idUsuario` INT(11) NOT NULL AUTO_INCREMENT,
-      `nomeUsuario` VARCHAR(100) NOT NULL,
-      `emailUsuario` VARCHAR(100) NOT NULL UNIQUE,
-      `senhaUsuario` VARCHAR(255) NOT NULL,
-      `foto` VARCHAR(255) DEFAULT 'default.png',
-      PRIMARY KEY (`idUsuario`)
+      `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
+      `nomeUsuario` varchar(255) NOT NULL,
+      `emailUsuario` varchar(255) NOT NULL,
+      `senhaUsuario` varchar(255) NOT NULL,
+      `foto` varchar(255) DEFAULT NULL,
+      `idadeUsuario` int(11) DEFAULT NULL,
+      PRIMARY KEY (`idUsuario`),
+      UNIQUE KEY `emailUsuario_UNIQUE` (`emailUsuario`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
     -- Tabela de eventos
     CREATE TABLE `tbcadevento` (
-      `idCadEvento` INT(11) NOT NULL AUTO_INCREMENT,
-      `nomeCadEvento` VARCHAR(150) NOT NULL,
-      `dataCadEvento` DATE NOT NULL,
-      `descCadEvento` TEXT NOT NULL,
-      `fotoCadEvento` VARCHAR(255) NOT NULL,
-      `idUsuario` INT(11) NOT NULL,
+      `idCadEvento` int(11) NOT NULL AUTO_INCREMENT,
+      `nomeCadEvento` varchar(255) NOT NULL,
+      `dataCadEvento` date NOT NULL,
+      `descCadEvento` text NOT NULL,
+      `fotoCadEvento` varchar(255) NOT NULL,
+      `precoCadEvento` decimal(10,2) NOT NULL DEFAULT 49.90,
+      `idUsuario` int(11) NOT NULL,
       PRIMARY KEY (`idCadEvento`),
-      FOREIGN KEY (`idUsuario`) REFERENCES `tbusuario`(`idUsuario`) ON DELETE CASCADE
+      KEY `fk_evento_usuario_idx` (`idUsuario`),
+      CONSTRAINT `fk_evento_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `tbusuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    -- Tabela de produtos
+    CREATE TABLE `tbprodutos` (
+      `idProduto` int(11) NOT NULL AUTO_INCREMENT,
+      `nomeProduto` varchar(150) NOT NULL,
+      `precoProduto` decimal(10,2) NOT NULL,
+      `imagemProduto` varchar(255) NOT NULL,
+      PRIMARY KEY (`idProduto`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    -- Tabela de pedidos
+    CREATE TABLE `tbpedidos` (
+      `idPedido` int(11) NOT NULL AUTO_INCREMENT,
+      `idUsuario` int(11) NOT NULL,
+      `valorTotal` decimal(10,2) NOT NULL,
+      `formaPagamento` varchar(50) NOT NULL,
+      `dataPedido` timestamp NOT NULL DEFAULT current_timestamp(),
+      PRIMARY KEY (`idPedido`),
+      KEY `fk_pedido_usuario_idx` (`idUsuario`),
+      CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `tbusuario` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    -- Tabela de itens do pedido
+    CREATE TABLE `tbpedidos_itens` (
+      `idItemPedido` int(11) NOT NULL AUTO_INCREMENT,
+      `idPedido` int(11) NOT NULL,
+      `idCadEvento` int(11) DEFAULT NULL,
+      `idProduto` int(11) DEFAULT NULL,
+      `quantidade` int(11) NOT NULL,
+      `precoUnitario` decimal(10,2) NOT NULL,
+      PRIMARY KEY (`idItemPedido`),
+      KEY `fk_item_pedido_idx` (`idPedido`),
+      KEY `fk_item_evento_idx` (`idCadEvento`),
+      KEY `fk_item_produto_idx` (`idProduto`),
+      CONSTRAINT `fk_item_evento` FOREIGN KEY (`idCadEvento`) REFERENCES `tbcadevento` (`idCadEvento`) ON DELETE SET NULL ON UPDATE CASCADE,
+      CONSTRAINT `fk_item_pedido` FOREIGN KEY (`idPedido`) REFERENCES `tbpedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT `fk_item_produto` FOREIGN KEY (`idProduto`) REFERENCES `tbprodutos` (`idProduto`) ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ```
 
-4.  **Configuração da Conexão:**
+3.  **Configuração da Conexão:**
     * Abra o arquivo `conexao.php`.
-    * Altere as variáveis `$banco`, `$usuario`, e `$senha` com as credenciais do seu banco de dados local.
+    * Altere as variáveis com as credenciais do seu banco de dados.
 
-5.  **Acesse a Aplicação:**
-    * Inicie os serviços do Apache e MySQL no seu painel XAMPP.
-    * Abra o seu navegador e acesse `http://localhost/nome-da-pasta-do-projeto/`.
+4.  **Acesse a Aplicação:**
+    * Inicie o Apache e o MySQL.
+    * Acesse `http://localhost/sua-pasta/` no navegador.
 
 ---
-
 ## 📂 Estrutura do Projeto
-/
 
+A estrutura de arquivos do projeto está organizada da seguinte forma, com uma pasta para cada tipo de recurso público e os arquivos PHP na raiz.
+
+/ (pasta raiz do projeto, ex: 'banco/')
 ├── Styles/
-│   ├── galeria.css
-│   ├── login.css
+│   ├── main.css         (Estilos globais: navbar, footer, etc.)
 │   ├── carrinho.css
-│   └── ... (outros arquivos css)
+│   ├── auth.css         (Estilos para login e cadastro)
+│   ├── galeria.css      (Estilos específicos da galeria)
+│   └── ...              (e outros arquivos de estilo)
+│
 ├── js/
-│   ├── galeria.js
-│   └── carrinho.js
+│   ├── main.js          (Scripts globais: animações, etc.)
+│   ├── carrinho.js
+│   ├── galeria.js       (Scripts específicos da galeria)
+│   └── auth.js          (Scripts para preview de imagem no cadastro)
+│
 ├── img/
-│   └── (imagens estáticas do site)
+│   └── (Imagens estáticas do site: logo, background, etc.)
+│
 ├── uploads/
-│   └── (imagens dos eventos e perfis enviadas pelos usuários)
+│   └── (Imagens dos eventos e perfis enviadas pelos usuários)
+│
 ├── conexao.php
+├── config.php
+├── index.php (Home)
 ├── login.php
 ├── cadastro.php
-├── dashboard.php
 ├── galeria.php
-├── editar_evento.php
-├── excluir_evento.php
-└── ... (outros arquivos php)
+├── dashboard.php
+├── logout.php
+├── processa_login.php
+├── processa_cadastro.php
+└── ... (e todos os outros arquivos .php)
 
-
----
+--
 
 ## 👨‍💻 Autor
 
-Feito com ❤️ por **[HyagoIFSilva]**
+Feito com ❤️ por **Hyago I. F. Silva**
 
 [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://br.linkedin.com/in/hyagoinaciofarias?trk=people-guest_people_search-card)
 
@@ -145,4 +207,4 @@ Feito com ❤️ por **[HyagoIFSilva]**
 
 ## 📄 Licença
 
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+Distribuído sob a licença MIT.
