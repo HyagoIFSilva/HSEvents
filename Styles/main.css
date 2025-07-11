@@ -543,3 +543,37 @@ main {
     background-color: #4d0f1d;
     border-color: #ff3b3f;
 }
+/* --- NOVA BIBLIOTECA DE ANIMAÇÕES DE SCROLL --- */
+
+/* Estado inicial de todo elemento que será animado */
+.animate-on-scroll {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Animação vindo de baixo */
+.animate-on-scroll.fade-in-up {
+    transform: translateY(50px);
+}
+
+/* Animação vindo da esquerda */
+.animate-on-scroll.fade-in-left {
+    transform: translateX(-50px);
+}
+
+/* Animação vindo da direita */
+.animate-on-scroll.fade-in-right {
+    transform: translateX(50px);
+}
+
+/* Estado final quando o elemento está visível */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+}
+
+/* Classes de atraso para efeito cascata */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
