@@ -1,8 +1,14 @@
 <?php
 require_once 'config.php';
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+function isActive($pageName) {
+
+    if (basename($_SERVER['PHP_SELF']) == $pageName) {
+        echo 'class="active"';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -14,6 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>Styles/main.css"/> 
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>Styles/carrinho.css"/> 
 </head>
@@ -26,19 +33,19 @@ if (session_status() === PHP_SESSION_NONE) {
         </a>
         
         <nav class="navbar-links">
-            <a href="<?php echo BASE_URL; ?>home.php" <?php if(basename($_SERVER['PHP_SELF']) == 'home.php') echo 'class="active"'; ?>>Home</a>
-            <a href="<?php echo BASE_URL; ?>galeria.php" <?php if(basename($_SERVER['PHP_SELF']) == 'galeria.php') echo 'class="active"'; ?>>Galeria</a> 
+            <a href="<?php echo BASE_URL; ?>home.php" <?php isActive('index.php'); ?>>Home</a>
+            <a href="<?php echo BASE_URL; ?>galeria.php" <?php isActive('galeria.php'); ?>>Galeria</a> 
             
             <?php if (isset($_SESSION['idUsuario'])): ?>
-                <a href="<?php echo BASE_URL; ?>dashboard.php" <?php if(basename($_SERVER['PHP_SELF']) == 'dashboard.php') echo 'class="active"'; ?>>Dashboard</a>
+                <a href="<?php echo BASE_URL; ?>dashboard.php" <?php isActive('dashboard.php'); ?>>Dashboard</a>
                 <a href="#" id="cart-icon" class="cart-icon" style="display: none;">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
                 </a>
                 <a href="<?php echo BASE_URL; ?>logout.php">Sair</a>
             <?php else: ?>
-                <a href="<?php echo BASE_URL; ?>login.php" <?php if(basename($_SERVER['PHP_SELF']) == 'login.php') echo 'class="active"'; ?>>Login</a>
-                <a href="<?php echo BASE_URL; ?>cadastro.php" <?php if(basename($_SERVER['PHP_SELF']) == 'cadastro.php') echo 'class="active"'; ?>>Registrar</a>
+                <a href="<?php echo BASE_URL; ?>login.php" <?php isActive('login.php'); ?>>Login</a>
+                <a href="<?php echo BASE_URL; ?>cadastro.php" <?php isActive('cadastro.php'); ?>>Registrar</a>
             <?php endif; ?>
         </nav>
 

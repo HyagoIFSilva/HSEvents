@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07/07/2025 às 06:53
+-- Tempo de geração: 11/07/2025 às 07:13
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -45,8 +45,55 @@ INSERT INTO `tbcadevento` (`idCadEvento`, `nomeCadEvento`, `dataCadEvento`, `des
 (1, 'Mundial De League Of Legends', '2025-12-12', 'MUNDIAL DE LOL', '6bd06ad4c8c900087a24c8e1f4656f6d.png', 49.90, 1),
 (4, 'Major Csgo 2', '2025-08-07', 'Mundial de Counter Strike 2', '6ce629455d3ab6f9c17882d5481ec91a.png', 49.90, 1),
 (5, 'Champions Valorant', '2026-12-11', 'Mundial De Valorantt', 'evento_6866ea982cbae.png', 49.90, 1),
-(6, 'BGS evento', '2026-01-12', 'Maior evento de games do Brasil', 'efafbadf2f30b3e2a4f04cebf941f64b.png', 49.90, 1),
-(7, 'Mundial De League Of Legendsaaa', '1231-03-12', 'asd', 'evento_6866ceca6eadf.png', 49.90, 1);
+(6, 'BGS evento', '2026-01-12', 'Maior evento de games do Brasil', 'efafbadf2f30b3e2a4f04cebf941f64b.png', 49.90, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbhoteis`
+--
+
+CREATE TABLE `tbhoteis` (
+  `idHotel` int(11) NOT NULL,
+  `nomeHotel` varchar(100) NOT NULL,
+  `localHotel` varchar(100) NOT NULL,
+  `detalhesHotel` varchar(255) NOT NULL,
+  `descricaoHotel` text NOT NULL,
+  `imagemHotel` varchar(255) NOT NULL,
+  `linkReserva` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbhoteis`
+--
+
+INSERT INTO `tbhoteis` (`idHotel`, `nomeHotel`, `localHotel`, `detalhesHotel`, `descricaoHotel`, `imagemHotel`, `linkReserva`) VALUES
+(1, 'CHARLIE', 'Jardim Paulista', '🚶 9.3 KM • 📶 Wi-Fi • ❄️ Ar-condicionado', 'Descubra uma nova forma de se hospedar com conforto, praticidade e zero burocracia.', 'img/charlie.jpg', '#'),
+(2, 'VILA GALÉ PAULISTA', 'Consolação', '🚶 9 KM • 📶 Wi-Fi • ❄️ Ar-condicionado • 🅿 Estacionamento • ☕ Café da manhã', 'Localizado próximo à Paulista, ideal para quem procura animação noturna e localização privilegiada.', 'img/289305619.jpg', '#');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbparceiros`
+--
+
+CREATE TABLE `tbparceiros` (
+  `idParceiro` int(11) NOT NULL,
+  `nomeParceiro` varchar(100) NOT NULL,
+  `logoParceiro` varchar(255) NOT NULL,
+  `linkParceiro` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbparceiros`
+--
+
+INSERT INTO `tbparceiros` (`idParceiro`, `nomeParceiro`, `logoParceiro`, `linkParceiro`) VALUES
+(1, 'CCXP', 'img/ccxp.png', 'https://www.ccxp.com.br'),
+(2, 'Gamescom', 'img/gamescom.png', 'https://www.gamescom.global'),
+(3, 'BGS', 'img/BGS.png', 'https://www.brasilgameshow.com.br'),
+(4, 'Riot Games', 'img/logoRiot.png', 'https://www.riotgames.com'),
+(5, 'Valve', 'img/logoValve.png', 'https://www.valvesoftware.com');
 
 -- --------------------------------------------------------
 
@@ -70,7 +117,10 @@ INSERT INTO `tbpedidos` (`idPedido`, `idUsuario`, `valorTotal`, `formaPagamento`
 (2, 1, 44.91, 'pix', '2025-07-04 17:59:08'),
 (3, 1, 942.03, 'pix', '2025-07-04 18:29:10'),
 (4, 1, 359.28, 'pix', '2025-07-04 19:33:18'),
-(5, 1, 314.01, 'pix', '2025-07-04 19:51:22');
+(5, 1, 314.01, 'pix', '2025-07-04 19:51:22'),
+(6, 1, 358.20, 'pix', '2025-07-11 03:05:04'),
+(7, 1, 211.50, 'pix', '2025-07-11 04:41:03'),
+(8, 1, 5184.00, 'pix', '2025-07-11 04:49:53');
 
 -- --------------------------------------------------------
 
@@ -99,16 +149,28 @@ INSERT INTO `tbpedidos_itens` (`idItemPedido`, `idPedido`, `idCadEvento`, `idPro
 (6, 3, 5, NULL, 7, 49.90),
 (7, 3, 6, NULL, 2, 49.90),
 (8, 3, 4, NULL, 1, 49.90),
-(9, 3, 7, NULL, 1, 49.90),
 (11, 3, 1, NULL, 1, 49.90),
 (12, 4, 5, NULL, 2, 49.90),
 (13, 4, 6, NULL, 2, 49.90),
 (14, 4, 4, NULL, 2, 49.90),
 (15, 4, 1, NULL, 1, 49.90),
-(16, 4, 7, NULL, 1, 49.90),
 (17, 5, NULL, 2, 2, 50.00),
 (18, 5, 6, NULL, 1, 49.90),
-(19, 5, NULL, 3, 1, 199.00);
+(19, 5, NULL, 3, 1, 199.00),
+(20, 6, NULL, 3, 1, 199.00),
+(21, 6, NULL, 2, 2, 50.00),
+(22, 6, NULL, 1, 1, 99.00),
+(23, 7, NULL, 5, 1, 75.00),
+(24, 7, NULL, 6, 1, 60.00),
+(25, 7, NULL, 4, 1, 50.00),
+(26, 7, NULL, 2, 1, 50.00),
+(27, 8, NULL, 3, 2, 100.00),
+(28, 8, NULL, 1, 1, 75.00),
+(29, 8, NULL, 2, 1, 50.00),
+(30, 8, NULL, 8, 10, 230.00),
+(31, 8, NULL, 7, 12, 250.00),
+(32, 8, NULL, 6, 1, 60.00),
+(33, 8, NULL, 5, 1, 75.00);
 
 -- --------------------------------------------------------
 
@@ -118,19 +180,25 @@ INSERT INTO `tbpedidos_itens` (`idItemPedido`, `idPedido`, `idCadEvento`, `idPro
 
 CREATE TABLE `tbprodutos` (
   `idProduto` int(11) NOT NULL,
-  `nomeProduto` varchar(150) NOT NULL,
+  `nomeProduto` varchar(100) NOT NULL,
   `precoProduto` decimal(10,2) NOT NULL,
-  `imagemProduto` varchar(255) NOT NULL
+  `imagemProduto` varchar(255) NOT NULL,
+  `categoriaProduto` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbprodutos`
 --
 
-INSERT INTO `tbprodutos` (`idProduto`, `nomeProduto`, `precoProduto`, `imagemProduto`) VALUES
-(1, 'Camisa Oficial', 99.00, 'img/camisas.png'),
-(2, 'Copo Gamer', 50.00, 'img/copos.png'),
-(3, 'Controle Custom', 199.00, 'img/controles.png');
+INSERT INTO `tbprodutos` (`idProduto`, `nomeProduto`, `precoProduto`, `imagemProduto`, `categoriaProduto`) VALUES
+(1, 'Camisa Manga Comprida', 75.00, 'img/comprida.png', 'camisas'),
+(2, 'Camisa Manga Curta', 50.00, 'img/curta.png', 'camisas'),
+(3, 'Blusa de Frio', 100.00, 'img/frio.png', 'camisas'),
+(4, 'Xícara Gamer', 50.00, 'img/xicara.png', 'copos'),
+(5, 'Garrafa Térmica', 75.00, 'img/termica.png', 'copos'),
+(6, 'Garrafa Simples', 60.00, 'img/garrafa.png', 'copos'),
+(7, 'Controle Custom PS5', 250.00, 'img/ps5.png', 'controles'),
+(8, 'Controle Custom Xbox', 230.00, 'img/xbox.png', 'controles');
 
 -- --------------------------------------------------------
 
@@ -174,6 +242,18 @@ ALTER TABLE `tbcadevento`
   ADD KEY `fk_evento_usuario_idx` (`idUsuario`);
 
 --
+-- Índices de tabela `tbhoteis`
+--
+ALTER TABLE `tbhoteis`
+  ADD PRIMARY KEY (`idHotel`);
+
+--
+-- Índices de tabela `tbparceiros`
+--
+ALTER TABLE `tbparceiros`
+  ADD PRIMARY KEY (`idParceiro`);
+
+--
 -- Índices de tabela `tbpedidos`
 --
 ALTER TABLE `tbpedidos`
@@ -213,22 +293,34 @@ ALTER TABLE `tbcadevento`
   MODIFY `idCadEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT de tabela `tbhoteis`
+--
+ALTER TABLE `tbhoteis`
+  MODIFY `idHotel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `tbparceiros`
+--
+ALTER TABLE `tbparceiros`
+  MODIFY `idParceiro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de tabela `tbpedidos`
 --
 ALTER TABLE `tbpedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbpedidos_itens`
 --
 ALTER TABLE `tbpedidos_itens`
-  MODIFY `idItemPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idItemPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `tbprodutos`
 --
 ALTER TABLE `tbprodutos`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbusuario`

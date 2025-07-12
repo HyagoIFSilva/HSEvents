@@ -30,7 +30,7 @@
     <div class="video-overlay"></div>
     <video autoplay muted loop playsinline><source src="<?php echo BASE_URL; ?>img/BGS 2024 - Viva O Game.mp4" type="video/mp4" /></video>
     <div class="video-content">
-        <h1 class="animate-on-scroll fade-in-up">O Universo Gamer ao Seu Alcance</h1>
+        <h1 class="animate-on-scroll fade-in-up">O Palco do Universo Gamer</h1>
         <p class="animate-on-scroll fade-in-up delay-1">Os maiores eventos, os melhores produtos e a paixão que nos une. Tudo em um só lugar.</p>
         <a href="<?php echo BASE_URL; ?>galeria.php" class="cta-button animate-on-scroll fade-in-up delay-2">Ver Eventos</a>
     </div>
@@ -69,12 +69,12 @@
 
 <section class="sobre-nos-section animate-on-scroll">
     <div class="sobre-nos-container">
-        <div class="sobre-nos-imagem animate-on-scroll fade-in-left delay-1">
+        <div class="sobre-nos-imagem">
             <img src="<?php echo BASE_URL; ?>img/robo.png" alt="Mascote HSEvents">
         </div>
-        <div class="sobre-nos-texto animate-on-scroll fade-in-right delay-2">
+        <div class="sobre-nos-texto">
             <span class="section-badge">Nossa Missão</span>
-            <h2>Conectando Você à Emoção do Universo Gamer</h2>
+            <h2>Garantir seu Lugar na História.</h2>
             <p>Mais do que uma plataforma de ingressos, a HSEvents é a sua ponte direta para as experiências mais eletrizantes do cenário gamer e da cultura pop. Nossa missão é levar você ao coração da ação, seja nas finais mundiais de gigantes como <strong>League of Legends, Valorant e CS:GO</strong>, ou nas maiores convenções que celebram nossa paixão, como a <strong>BGS, Gamescom e CCXP</strong>.</p>
             <p>Explore, descubra e garanta seu lugar na primeira fila da história.</p>
         </div>
