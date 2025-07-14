@@ -15,7 +15,16 @@
 **HSEvents** é uma plataforma web completa e dinâmica desenvolvida para a criação, gerenciamento e divulgação de eventos. A aplicação conta com um sistema de autenticação de usuários, um painel de controle analítico para o gerenciamento de eventos (CRUD), e uma interface pública com galeria, detalhes de eventos e um sistema de e-commerce para a "venda" de ingressos e produtos.
 
 O projeto foi construído com foco em uma interface moderna, responsiva e uma experiência de usuário fluida, utilizando PHP no backend para a lógica de negócios e JavaScript para interatividade e visualização de dados no frontend.
+---
 
+## 💡 Inspirações e Referências
+
+O design e a experiência de usuário deste projeto foram fortemente inspirados em grandes portais de eventos do universo gamer, buscando replicar a energia e o profissionalismo de sites como:
+
+* [BGS (Brasil Game Show)](https://www.brasilgameshow.com.br/)
+* (Adicione aqui outros sites que você usou como referência)
+
+A intenção foi estudar as melhores práticas de mercado e aplicá-las em um projeto autoral e completo.
 ---
 
 ## ✨ Funcionalidades Principais
