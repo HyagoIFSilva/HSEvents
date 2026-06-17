@@ -1,23 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-    --cor-primaria: #8A2BE2;
-    --cor-secundaria: #9370DB;
-    --cor-fundo: #0d0d0d;
-    --cor-sucesso: #20c997;
-    --cor-texto: #f0f0f0;
-    --cor-borda: rgba(255, 255, 255, 0.2);
+    --cor-primaria: var(--neon-purple);
+    --cor-secundaria: var(--neon-magenta);
+    --cor-fundo: var(--bg-dark-base);
+    --cor-sucesso: #10b981;
+    --cor-texto: var(--text-white);
+    --cor-borda: var(--border-glass);
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-   background: var(--cor-fundo) url('https://www.transparenttextures.com/patterns/cubes.png');
+    font-family: 'Inter', sans-serif;
+    background: var(--cor-fundo);
     color: var(--cor-texto);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 24px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -25,128 +25,157 @@ body {
 .confirmation-container {
     position: relative;
     z-index: 5;
-    max-width: 600px;
+    max-width: 580px;
     width: 100%;
     margin: auto;
-    background: rgba(30, 30, 46, 0.75);
-    backdrop-filter: blur(10px);
+    background: var(--bg-card-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--cor-borda);
-    border-radius: 16px;
-    padding: 40px 50px;
+    border-radius: 24px;
+    padding: 50px 40px;
     text-align: center;
-    animation: fadeIn 0.5s ease-out;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(139, 92, 246, 0.1);
+    animation: confirmFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+@keyframes confirmFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .confirmation-header .success-icon {
-    font-size: 5rem;
+    font-size: 5.5rem;
     color: var(--cor-sucesso);
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     display: block;
     line-height: 1;
-    animation: popIn 0.5s ease-out 0.2s backwards;
+    filter: drop-shadow(0 0 15px rgba(16, 185, 201, 0.35));
+    animation: popInIcon 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+}
+
+@keyframes popInIcon {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
 }
 
 .confirmation-container h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 850;
     color: #fff;
     margin-bottom: 15px;
-    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--text-white), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .order-details {
     width: 100%;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(7, 5, 13, 0.4);
     border: 1px dashed var(--cor-borda);
-    border-radius: 10px;
-    padding: 25px;
-    margin: 30px 0;
-
-}
-
-.order-details {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px dashed var(--cor-borda);
-    border-radius: 10px;
-    padding: 25px;
-    margin: 30px 0;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 25px 0 35px 0;
     text-align: center;
 }
 
+.order-details p {
+    margin: 0;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+}
+
 .order-details strong {
-    color: var(--cor-primaria);
-    font-weight: 600;
+    color: var(--neon-cyan);
+    font-weight: 700;
 }
 
 .confirmation-actions {
     width: 100%;
     text-align: center;
-    margin-top: 20px;
 }
 
 .btn-confirm {
-    padding: 15px 35px;
-    background: linear-gradient(45deg, var(--cor-secundaria), var(--cor-primaria));
+    padding: 15px 40px;
+    background: linear-gradient(90deg, var(--neon-purple) 0%, var(--neon-magenta) 100%);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     text-decoration: none;
     display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .btn-confirm:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
 }
 
+.btn-confirm:active {
+    transform: translateY(0);
+}
+
+/* --- LEVITATING MASCOT --- */
 .confirmation-mascot {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: 25px;
+    left: 35px;
     z-index: 10;
     opacity: 0;
-    animation: slideInUp 1s ease-out 0.5s forwards;
+    animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 .confirmation-mascot img {
-    width: 200px;
-    animation: floatAnimation 6s ease-in-out infinite;
-    filter: drop-shadow(0 5px 25px rgba(0,0,0,0.5));
+    width: 175px;
+    animation: floatAnimation 5s ease-in-out infinite;
+    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.5));
     position: relative;
     z-index: 11;
 }
 
 .speech-bubble-confirm {
     position: absolute;
-    bottom: 310px;
-    left: 60px;
-    background: var(--cor-primaria);
+    bottom: 270px;
+    left: 45px;
+    background: linear-gradient(135deg, var(--neon-purple) 0%, #6d28d9 100%);
     color: white;
-    padding: 15px 20px;
-    border-radius: 12px;
+    padding: 14px 18px;
+    border-radius: 16px;
     font-weight: 500;
-    width: 220px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border: 2px solid var(--cor-secundaria);
+    width: 215px;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     opacity: 0;
-    transform: scale(0.8);
-    animation: popInBubble 0.5s ease-out 1.5s forwards;
+    transform: scale(0.85);
+    animation: popInBubble 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards;
     z-index: 12;
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
 .speech-bubble-confirm::after {
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 20px;
-    border-width: 10px 10px 0;
+    bottom: -8px;
+    left: 30px;
+    border-width: 8px 8px 0;
     border-style: solid;
-    border-color: var(--cor-primaria) transparent;
+    border-color: #6d28d9 transparent;
 }
 
 @keyframes slideInUp {
@@ -156,22 +185,20 @@ body {
 
 @keyframes floatAnimation {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(-12px); }
     100% { transform: translateY(0); }
 }
 
 @keyframes popInBubble {
-    from { transform: scale(0.8); opacity: 0; }
+    from { transform: scale(0.85); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes popIn {
-    from { transform: scale(0); }
-    to { transform: scale(1); }
 }
 
 @media (max-width: 900px) {
     .confirmation-mascot {
         display: none;
+    }
+    .confirmation-container {
+        padding: 40px 24px;
     }
 }

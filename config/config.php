@@ -1,4 +1,4 @@
 <?php
-define('BASE_URL', 'http://localhost/banco/');
+define('BASE_URL', 'http://localhost/HSEvents/');
 
 ?>

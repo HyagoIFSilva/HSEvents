@@ -1,11 +1,12 @@
 :root {
-    --cor-primaria: #8A2BE2;
-    --cor-fundo-box: #1f2937;
-    --cor-borda: #374151;
-    --cor-texto-principal: #f9fafb;
-    --cor-texto-secundario: #9ca3af;
+    --cor-primaria: var(--neon-purple);
+    --cor-fundo-box: var(--bg-card-glass);
+    --cor-borda: var(--border-glass);
+    --cor-texto-principal: var(--text-white);
+    --cor-texto-secundario: var(--text-muted);
 }
 
+/* --- HEADER BANNER --- */
 .detalhe-header {
     height: 60vh;
     background-size: cover;
@@ -13,8 +14,10 @@
     position: relative;
     display: flex;
     align-items: flex-end;
-    color: #fff;
-    padding: 40px;
+    color: var(--text-white);
+    padding: 60px 40px;
+    border-bottom: 1px solid var(--border-glass);
+    margin-top: -90px;
 }
 
 .header-overlay {
@@ -23,120 +26,184 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.1) 100%);
+    background: linear-gradient(180deg, rgba(7, 5, 13, 0.4) 0%, rgba(7, 5, 13, 0.7) 60%, var(--bg-dark-base) 100%);
     z-index: 1;
 }
 
 .detalhe-header h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--text-white) 0%, var(--neon-purple) 60%, var(--neon-magenta) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 20px rgba(0,0,0,0.8));
     position: relative;
     z-index: 2;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    line-height: 1.2;
 }
 
+@media (max-width: 768px) {
+    .detalhe-header {
+        height: 45vh;
+        padding: 30px 20px;
+    }
+    .detalhe-header h1 {
+        font-size: 2.25rem;
+    }
+}
+
+/* --- CONTENT & SIDEBAR GRID --- */
 .detalhe-body {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 1.1fr;
     gap: 40px;
     max-width: 1200px;
-    margin: -80px auto 40px auto;
+    margin: -60px auto 60px auto;
     position: relative;
     z-index: 3;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
 .detalhe-conteudo {
     background-color: var(--cor-fundo-box);
     border: 1px solid var(--cor-borda);
-    padding: 30px;
-    border-radius: 12px;
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .detalhe-conteudo h2 {
-    font-size: 1.8rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
     color: var(--cor-texto-principal);
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 1px solid var(--cor-borda);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .detalhe-conteudo .descricao-evento {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.8;
+    color: var(--cor-texto-secundario);
 }
 
+/* --- SIDEBAR PURCHASE BOX --- */
 .detalhe-sidebar .compra-box {
     background-color: var(--cor-fundo-box);
     border: 1px solid var(--cor-borda);
-    padding: 25px;
-    border-radius: 12px;
+    padding: 35px;
+    border-radius: 20px;
     position: sticky;
     top: 110px; /* Distância do topo da página */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .compra-box h3 {
-    font-size: 1.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
     color: var(--cor-texto-principal);
-    margin: 0 0 20px 0;
+    margin: 0 0 25px 0;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.compra-box .info-line, .compra-box .preco-line {
+.compra-box .info-line {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+}
+
+.compra-box .info-line .fas {
+    font-size: 1.15rem;
+    color: var(--neon-purple);
 }
 
 .compra-box hr {
     border: none;
     border-top: 1px solid var(--cor-borda);
-    margin: 20px 0;
+    margin: 25px 0;
 }
 
-.compra-box .info-line .fas {
-    margin-right: 10px;
-    color: var(--cor-primaria);
+.compra-box .preco-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    color: var(--cor-texto-secundario);
+    font-weight: 600;
 }
 
 .compra-box .ticket-price {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--cor-primaria);
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 850;
+    color: var(--neon-cyan);
+    letter-spacing: -0.5px;
 }
 
 .compra-box .comprar-btn {
     width: 100%;
-    padding: 15px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: var(--cor-primaria);
+    padding: 16px;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-white);
+    background: linear-gradient(90deg, var(--neon-purple) 0%, var(--neon-magenta) 100%);
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .compra-box .comprar-btn:hover {
-    background-color: #7b25c9;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+}
+
+.compra-box .comprar-btn:active {
+    transform: translateY(0);
 }
 
 @media (max-width: 900px) {
     .detalhe-body {
         grid-template-columns: 1fr;
+        margin-top: -30px;
+        gap: 30px;
     }
     .detalhe-sidebar .compra-box {
         position: static;
+        padding: 30px;
+    }
+    .detalhe-conteudo {
+        padding: 30px;
     }
 }

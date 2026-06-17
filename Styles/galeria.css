@@ -1,10 +1,10 @@
+/* --- BANNER CAROUSEL SWIPER --- */
 .swiper {
     width: 100%;
     height: 70vh;
-   
     max-height: 600px;
     margin-top: -90px;
-
+    border-bottom: 1px solid var(--border-glass);
 }
 
 .swiper-slide {
@@ -21,46 +21,65 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.6;
+    opacity: 0.55;
 }
 
 .carousel-caption {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    padding: 30px 40px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 60px 40px 40px 40px;
     text-align: left;
-    color: white;
+    color: var(--text-white);
+    background: linear-gradient(180deg, rgba(7, 5, 13, 0) 0%, rgba(7, 5, 13, 0.8) 100%);
+    z-index: 2;
 }
 
 .carousel-caption h3 {
-    margin: 0 0 5px 0;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+    margin: 0 0 8px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--text-white), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
 }
 
 .carousel-caption p {
     margin: 0;
-    font-size: 1.3rem;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
+/* --- GALLERY HEADER & SEARCH --- */
 .gallery-header {
     text-align: center;
-    padding: 40px 20px 20px 20px;
+    padding: 60px 20px 20px 20px;
+    background-color: var(--bg-dark-base);
 }
 
 .gallery-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #FFFFFF;
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--neon-purple) 0%, var(--neon-magenta) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .search-container {
     max-width: 600px;
-    margin: 0 auto 40px auto;
+    margin: 0 auto 30px auto;
     position: relative;
 }
 
@@ -70,103 +89,131 @@
 
 .search-container input {
     width: 100%;
-    padding: 15px 20px;
+    padding: 16px 65px 16px 24px;
     font-size: 1rem;
-    color: #FFFFFF;
-    background-color: #1E1E1E;
-    border: 1px solid #333333;
+    color: var(--text-white);
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-glass);
     border-radius: 50px;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: 'Inter', sans-serif;
 }
 
 .search-container input::placeholder {
-    color: #b3b3b3;
+    color: var(--text-muted);
 }
 
 .search-container input:focus {
-    border-color: #8A2BE2;
-    box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.2);
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 .search-container button {
     position: absolute;
-    right: 5px;
-    top: 5px;
-    bottom: 5px;
-    width: 50px;
+    right: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 46px;
     border: none;
-    background-color: #8A2BE2;
-    color: white;
+    background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-magenta) 100%);
+    color: var(--text-white);
     border-radius: 50%;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search-container button:hover {
-    background-color: #9932CC;
+    transform: scale(1.06);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.45);
 }
 
+/* --- GALLERY GRID & CARDS --- */
 .gallery-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 24px 80px;
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 320px);
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 35px;
     justify-content: center;
 }
 
 .gallery-card {
-    background: #1E1E1E;
-    border-radius: 12px;
-    border: 1px solid #333333;
+    background: var(--bg-card-glass);
+    border-radius: 20px;
+    border: 1px solid var(--border-glass);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .gallery-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(138, 43, 226, 0.15);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.22);
+    border-color: var(--border-glow-purple);
 }
 
+/* ADMIN ACTIONS (EDIT/DELETE) */
 .card-admin-actions {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     z-index: 10;
 }
 
 .options-btn {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(7, 5, 13, 0.75);
+    color: var(--text-white);
+    border: 1px solid var(--border-glass);
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.options-btn:hover {
+    background-color: rgba(7, 5, 13, 0.95);
+    transform: scale(1.08);
+    border-color: var(--neon-purple);
 }
 
 .options-dropdown {
     display: none;
     position: absolute;
-    top: 45px;
+    top: 46px;
     right: 0;
-    background-color: #2a2a2a;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    background-color: rgba(18, 14, 32, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    width: 150px;
-    border: 1px solid #333333;
+    width: 140px;
+    border: 1px solid var(--border-glass);
+    animation: dropdownFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .options-dropdown.active {
@@ -177,68 +224,89 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 15px;
-    color: #b3b3b3;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    padding: 12px 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
 .options-dropdown a:hover {
-    background-color: #8A2BE2;
-    color: #FFFFFF;
+    background-color: rgba(139, 92, 246, 0.15);
+    color: var(--text-white);
 }
 
+.options-dropdown a i {
+    font-size: 0.85rem;
+}
+
+.options-dropdown a:last-child:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* CARD DETAILS */
 .card-link {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    text-decoration: none;
 }
 
 .card-image-container {
     width: 100%;
     height: 200px;
     overflow: hidden;
-    background-color: #111;
+    background-color: rgba(7, 5, 13, 0.4);
+    border-bottom: 1px solid var(--border-glass);
 }
 
 .card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gallery-card:hover .card-image {
-    transform: scale(1.05);
+    transform: scale(1.06);
 }
 
 .card-content {
-    padding: 20px;
+    padding: 24px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
 .card-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #FFFFFF !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-white) !important;
     margin-bottom: 10px;
+    line-height: 1.3;
 }
 
 .card-date {
-    font-size: 0.8rem;
-    color: #b3b3b3;
+    font-size: 0.85rem;
+    color: var(--text-muted);
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 8px;
+    font-weight: 500;
+}
+
+.card-date i {
+    color: var(--neon-purple);
 }
 
 .card-description {
     flex-grow: 1;
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #b3b3b3;
+    color: var(--text-muted);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -246,32 +314,44 @@
     text-overflow: ellipsis;
 }
 
+/* CARD FOOTER */
 .card-footer {
-    padding: 15px 20px;
-    border-top: 1px solid #333333;
+    padding: 18px 24px 24px 24px;
+    border-top: 1px solid var(--border-glass);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
+    background-color: rgba(7, 5, 13, 0.2);
 }
 
 .ticket-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #8A2BE2;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--neon-cyan);
 }
 
 .comprar-btn {
     padding: 10px 20px;
-    font-weight: 600;
-    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 10px;
     cursor: pointer;
-    background-color: #a700ff;
-    color: white;
+    background: linear-gradient(90deg, var(--neon-purple) 0%, var(--neon-magenta) 100%);
+    color: var(--text-white);
     border: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
 }
 
 .comprar-btn:hover {
-    background-color: #9932CC;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
+}
+
+.comprar-btn:active {
+    transform: translateY(0);
 }
