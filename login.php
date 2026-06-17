@@ -1,16 +1,16 @@
 <?php 
-    require_once 'config.php';
-    include 'conexao.php';
+    require_once 'config/config.php';
+    include 'config/conexao.php';
     
     $page_title = "Login"; 
     
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-
+ 
     if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
         unset($_SESSION['login_success']);
-        include 'header.php';
+        include 'includes/header.php';
         echo '<link rel="stylesheet" href="' . BASE_URL . 'Styles/auth.css"/>';
         echo '<section class="auth-section">
                 <div class="form-box">
@@ -35,16 +35,16 @@
                     }
                 }, 1000);
               </script>';
-        include 'footer.php';
+        include 'includes/footer.php';
         exit();
     }
-
+ 
     if (isset($_SESSION['idUsuario'])) {
         header('Location: ' . BASE_URL . 'dashboard.php');
         exit();
     }
     
-    include 'header.php';
+    include 'includes/header.php';
 ?>
 
 <link rel="stylesheet" href="<?php echo BASE_URL; ?>Styles/auth.css"/> 
@@ -52,7 +52,7 @@
 <section class="auth-section">
     <div class="form-box">
         <div class="form-content">
-            <form method="POST" action="processa_login.php">
+            <form method="POST" action="actions/processa_login.php">
                 <h2>Login</h2>
                 
                 <?php 
@@ -88,5 +88,5 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <?php 
-    include 'footer.php'; 
+    include 'includes/footer.php'; 
 ?>

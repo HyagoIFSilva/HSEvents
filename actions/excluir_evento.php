@@ -1,6 +1,6 @@
 <?php
-require_once 'config.php';
-include 'conexao.php';
+require_once __DIR__ . '/../config/config.php';
+include __DIR__ . '/../config/conexao.php';
 session_start();
 
 if (!isset($_SESSION['idUsuario'])) {
@@ -26,7 +26,7 @@ try {
         if ($stmtDelete->execute([$idEvento, $idUsuario])) {
             
           
-            $caminhoImagem = 'uploads/' . $evento['fotoCadEvento'];
+            $caminhoImagem = __DIR__ . '/../uploads/' . $evento['fotoCadEvento'];
             if (file_exists($caminhoImagem)) {
                 unlink($caminhoImagem);
             }

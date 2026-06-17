@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'conexao.php';
+include 'config/conexao.php';
 
 $page_title = "Meus Pedidos";
-include 'header_dashboard.php'; 
+include 'includes/header_dashboard.php'; 
 
 try {
     $sql = "SELECT * FROM tbpedidos WHERE idUsuario = ? ORDER BY dataPedido DESC";
@@ -53,4 +53,4 @@ try {
     <?php endif; ?>
 </div>
 
-<?php include 'footer_dashboard.php'; ?>
+<?php include 'includes/footer_dashboard.php'; ?>

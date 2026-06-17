@@ -1,14 +1,15 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 session_start();
-include 'conexao.php';
+include __DIR__ . '/../config/conexao.php';
 
 if (!isset($_SESSION['idUsuario'])) {
-    header('Location: login.php');
+    header('Location: ' . BASE_URL . 'login.php');
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: meus_eventos.php');
+    header('Location: ' . BASE_URL . 'meus_eventos.php');
     exit;
 }
 
@@ -27,11 +28,11 @@ if (isset($_FILES['foto_evento']) && $_FILES['foto_evento']['error'] === UPLOAD_
 
     if (in_array($extensao, $extensoes_permitidas)) {
         $novo_nome_arquivo = "evento_" . uniqid() . "." . $extensao;
-        $caminho_upload = 'uploads/' . $novo_nome_arquivo;
+        $caminho_upload = __DIR__ . '/../uploads/' . $novo_nome_arquivo;
 
         if (move_uploaded_file($imagem['tmp_name'], $caminho_upload)) {
-            if ($fotoAntiga && file_exists('uploads/' . $fotoAntiga)) {
-                unlink('uploads/' . $fotoAntiga);
+            if ($fotoAntiga && file_exists(__DIR__ . '/../uploads/' . $fotoAntiga)) {
+                unlink(__DIR__ . '/../uploads/' . $fotoAntiga);
             }
             $nomeFotoNova = $novo_nome_arquivo;
         }
@@ -50,11 +51,11 @@ try {
     $stmt->execute([$nome, $data, $descricao, $nomeFotoNova, $idCadEvento, $idUsuario]);
 
     $_SESSION['evento_editado'] = "Evento atualizado com sucesso!";
-    header('Location: meus_eventos.php');
+    header('Location: ' . BASE_URL . 'meus_eventos.php');
     exit;
 
 } catch (PDOException $e) {
     $_SESSION['msg_erro'] = "Erro ao atualizar o banco de dados: " . $e->getMessage();
-    header('Location: editar_evento.php?id=' . $idCadEvento);
+    header('Location: ' . BASE_URL . 'editar_evento.php?id=' . $idCadEvento);
     exit;
 }

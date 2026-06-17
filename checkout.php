@@ -28,7 +28,7 @@ unset($_SESSION['cart_error']);
                 </div>
             <?php endif; ?>
 
-            <form action="processa_pedido.php" method="POST" id="checkout-form">
+            <form action="actions/processa_pedido.php" method="POST" id="checkout-form">
                 
                 <div class="form-section">
                     <h2><i class="fas fa-shipping-fast"></i> Endereço de Entrega (Ingressos Digitais)</h2>

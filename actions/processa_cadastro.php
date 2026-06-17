@@ -1,6 +1,6 @@
 <?php
-require_once 'config.php';
-include 'conexao.php';
+require_once __DIR__ . '/../config/config.php';
+include __DIR__ . '/../config/conexao.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -45,7 +45,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
     if (in_array($extensao, $permitidas)) {
     
         $nomeFoto = uniqid('user_') . '.' . $extensao;
-        $caminhoUpload = 'uploads/' . $nomeFoto;
+        $caminhoUpload = __DIR__ . '/../uploads/' . $nomeFoto;
         move_uploaded_file($foto['tmp_name'], $caminhoUpload);
     }
 }

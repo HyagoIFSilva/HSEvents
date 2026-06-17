@@ -1,14 +1,15 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 session_start();
-include 'conexao.php';
+include __DIR__ . '/../config/conexao.php';
 
 // 1. Validações iniciais
 if (!isset($_SESSION['idUsuario'])) {
-    header('Location: login.php');
+    header('Location: ' . BASE_URL . 'login.php');
     exit();
 }
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['cart_data'])) {
-    header('Location: checkout.php');
+    header('Location: ' . BASE_URL . 'checkout.php');
     exit;
 }
 
@@ -19,7 +20,7 @@ $formaPagamento = $_POST['forma_pagamento'] ?? 'credito';
 
 if (json_last_error() !== JSON_ERROR_NONE || !is_array($cartData) || empty($cartData)) {
     $_SESSION['cart_error'] = "Seu carrinho está vazio ou os dados são inválidos.";
-    header('Location: checkout.php');
+    header('Location: ' . BASE_URL . 'checkout.php');
     exit;
 }
 if ($formaPagamento === 'credito') {
@@ -80,7 +81,7 @@ try {
 
     if ($itensInvalidosEncontrados || empty($carrinhoValidado)) {
         $_SESSION['cart_error'] = "Erro: Um ou mais itens no seu carrinho não estão mais disponíveis. Por favor, revise seu carrinho.";
-        header('Location: checkout.php');
+        header('Location: ' . BASE_URL . 'checkout.php');
         exit();
     }
 
@@ -115,7 +116,7 @@ try {
     $con->commit();
 
     $_SESSION['pedido_confirmado_id'] = $idPedido;
-    header('Location: pedido_confirmado.php');
+    header('Location: ' . BASE_URL . 'pedido_confirmado.php');
     exit;
 
 } catch (Exception $e) {

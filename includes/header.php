@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -28,12 +28,12 @@ function isActive($pageName) {
 
 <header class="navbar">
     <div class="navbar-container">
-        <a href="<?php echo BASE_URL; ?>home.php" class="navbar-logo">
+        <a href="<?php echo BASE_URL; ?>index.php" class="navbar-logo">
             <img src="<?php echo BASE_URL; ?>img/logo1.png" alt="Logo">
         </a>
         
         <nav class="navbar-links">
-            <a href="<?php echo BASE_URL; ?>home.php" <?php isActive('index.php'); ?>>Home</a>
+            <a href="<?php echo BASE_URL; ?>index.php" <?php isActive('index.php'); ?>>Home</a>
             <a href="<?php echo BASE_URL; ?>galeria.php" <?php isActive('galeria.php'); ?>>Galeria</a> 
             
             <?php if (isset($_SESSION['idUsuario'])): ?>
@@ -42,7 +42,7 @@ function isActive($pageName) {
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
                 </a>
-                <a href="<?php echo BASE_URL; ?>logout.php">Sair</a>
+                <a href="<?php echo BASE_URL; ?>actions/logout.php">Sair</a>
             <?php else: ?>
                 <a href="<?php echo BASE_URL; ?>login.php" <?php isActive('login.php'); ?>>Login</a>
                 <a href="<?php echo BASE_URL; ?>cadastro.php" <?php isActive('cadastro.php'); ?>>Registrar</a>

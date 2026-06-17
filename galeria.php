@@ -1,9 +1,9 @@
 <?php
-    require_once 'config.php';
-    include 'conexao.php';
+    require_once 'config/config.php';
+    include 'config/conexao.php';
     
     $page_title = "Galeria de Eventos"; 
-    include 'header.php';
+    include 'includes/header.php';
 
     if (!isset($_SESSION['idUsuario'])) {
         header('Location: ' . BASE_URL . 'login.php');
@@ -93,7 +93,7 @@
         <div class="modal-header-delete"><span class="close-delete">&times;</span><h2>Confirmar Exclusão</h2></div>
         <div class="modal-body-delete"><p>Você tem certeza de que deseja excluir este evento? Esta ação não pode ser desfeita.</p></div>
         <div class="modal-footer-delete">
-            <form id="deleteForm" action="<?php echo BASE_URL; ?>excluir_evento.php" method="POST">
+            <form id="deleteForm" action="<?php echo BASE_URL; ?>actions/excluir_evento.php" method="POST">
                 <input type="hidden" name="idCadEvento" id="deleteIdCadEvento" value="">
                 <button type="button" class="btn-cancel">Cancelar</button>
                 <button type="submit" class="btn-confirm-delete">Sim, Excluir</button>
@@ -105,5 +105,5 @@
 <script src="<?php echo BASE_URL; ?>js/galeria.js"></script>
 
 <?php 
-    include 'footer.php'; 
+    include 'includes/footer.php'; 
 ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexao.php'; 
+include 'config/conexao.php'; 
 
 if (!isset($_SESSION['idUsuario'])) {
     header('Location: login.php');
@@ -46,7 +46,7 @@ try {
                 </ul>
             </nav>
             <div class="logout">
-                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                <a href="actions/logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
             </div>
         </aside>
 
@@ -100,7 +100,7 @@ try {
                 <button class="close-modal-btn">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="editForm" action="processa_edicao_evento.php" method="POST" enctype="multipart/form-data">
+                <form id="editForm" action="actions/processa_edicao_evento.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="idCadEvento" id="edit-id">
                     <input type="hidden" name="fotoAntiga" id="edit-foto-antiga">
                     <div class="form-group">

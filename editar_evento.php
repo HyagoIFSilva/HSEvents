@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexao.php';
+include 'config/conexao.php';
 
 if (!isset($_SESSION['idUsuario'])) {
     header('Location: login.php');
@@ -56,9 +56,9 @@ try {
                     <li><a href="galeria.php"><i class="fas fa-images"></i> Galeria Pública</a></li>
                 </ul>
             </nav>
-            <div class="logout">
-                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
-            </div>
+             <div class="logout">
+                 <a href="actions/logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
+             </div>
     </aside>
 
     <main class="main-content">
@@ -66,7 +66,7 @@ try {
         <p>Altere os dados desejados. O envio de uma nova imagem substituirá a antiga.</p>
 
         <div class="form-wrapper">
-            <form action="processa_edicao_evento.php" method="POST" enctype="multipart/form-data">
+             <form action="actions/processa_edicao_evento.php" method="POST" enctype="multipart/form-data">
                 
                 <input type="hidden" name="idCadEvento" value="<?php echo $evento['idCadEvento']; ?>">
                 <input type="hidden" name="fotoAntiga" value="<?php echo $evento['fotoCadEvento']; ?>">

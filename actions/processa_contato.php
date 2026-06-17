@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($nome) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($assunto) || empty($mensagem)) {
         $_SESSION['toast'] = ['type' => 'error', 'message' => 'Por favor, preencha todos os campos corretamente.'];
-        header('Location: ' . BASE_URL . 'home.php');
+        header('Location: ' . BASE_URL . 'index.php');
         exit;
     }
 

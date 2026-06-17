@@ -1,6 +1,6 @@
 <?php
-require_once 'config.php';
-include 'conexao.php';
+require_once __DIR__ . '/../config/config.php';
+include __DIR__ . '/../config/conexao.php';
 session_start();
 
 

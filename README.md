@@ -170,41 +170,57 @@ A intenção foi estudar as melhores práticas de mercado e aplicá-las em um pr
 ---
 ## 📂 Estrutura do Projeto
 
-A estrutura de arquivos do projeto está organizada da seguinte forma, com uma pasta para cada tipo de recurso público e os arquivos PHP na raiz.
+A estrutura de arquivos do projeto está organizada de forma modular e limpa:
 
 / (pasta raiz do projeto, ex: 'banco/')
-├── Styles/
-│   ├── main.css         (Estilos globais: navbar, footer, etc.)
+├── config/              (Configurações globais e conexões de Banco de Dados)
+│   ├── config.php
+│   └── conexao.php
+│
+├── includes/            (Componentes de layout reutilizáveis)
+│   ├── header.php
+│   ├── footer.php
+│   ├── header_dashboard.php
+│   └── footer_dashboard.php
+│
+├── actions/             (Processadores de formulários e lógica backend)
+│   ├── processa_cadastro.php
+│   ├── processa_cadastro_evento.php
+│   ├── processa_contato.php
+│   ├── processa_edicao_evento.php
+│   ├── processa_login.php
+│   ├── processa_pedido.php
+│   ├── excluir_evento.php
+│   └── logout.php
+│
+├── Styles/              (Estilos CSS de cada página)
+│   ├── main.css
 │   ├── carrinho.css
-│   ├── auth.css         (Estilos para login e cadastro)
-│   ├── galeria.css      (Estilos específicos da galeria)
-│   └── ...              (e outros arquivos de estilo)
+│   ├── auth.css
+│   ├── galeria.css
+│   └── ...
 │
-├── js/
-│   ├── main.js          (Scripts globais: animações, etc.)
+├── js/                  (Scripts JavaScript)
+│   ├── main.js
 │   ├── carrinho.js
-│   ├── galeria.js       (Scripts específicos da galeria)
-│   └── auth.js          (Scripts para preview de imagem no cadastro)
+│   └── ...
 │
-├── img/
-│   └── (Imagens estáticas do site: logo, background, etc.)
+├── img/                 (Imagens estáticas)
+├── uploads/             (Imagens enviadas por usuários)
+├── archive/             (Arquivos e scripts antigos/inativos)
 │
-├── uploads/
-│   └── (Imagens dos eventos e perfis enviadas pelos usuários)
-│
-├── conexao.php
-├── config.php
-├── index.php (Home)
+# Páginas Principais (Controladores Frontais)
+├── index.php            (Home principal)
 ├── login.php
 ├── cadastro.php
 ├── galeria.php
+├── detalhes_evento.php
+├── checkout.php
 ├── dashboard.php
-├── logout.php
-├── processa_login.php
-├── processa_cadastro.php
-└── ... (e todos os outros arquivos .php)
-
---
+├── meus_eventos.php
+├── meus_pedidos.php
+├── painel.php
+└── pedido_confirmado.php
 
 ## 👨‍💻 Autor
 

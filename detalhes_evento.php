@@ -1,6 +1,6 @@
 <?php
-    require_once 'config.php';
-    require_once 'conexao.php';
+    require_once 'config/config.php';
+    require_once 'config/conexao.php';
 
     $idEvento = $_GET['id'] ?? 0;
     if (!$idEvento) {
@@ -24,7 +24,7 @@
     }
     
     $page_title = htmlspecialchars($evento['nomeCadEvento']) . " - Detalhes"; 
-    include 'header.php';
+    include 'includes/header.php';
 ?>
 
 <link rel="stylesheet" href="<?php echo BASE_URL; ?>Styles/detalhes_evento.css" />
@@ -67,5 +67,5 @@
 </div>
 
 <?php 
-    include 'footer.php'; 
+    include 'includes/footer.php'; 
 ?>

@@ -1,9 +1,9 @@
 <?php 
-    require_once 'config.php';
-    require_once 'conexao.php';
+    require_once 'config/config.php';
+    require_once 'config/conexao.php';
 
     $page_title = "Eventos Gamer - Home"; 
-    include 'header.php';
+    include 'includes/header.php';
 
     try {
         $stmtEventos = $con->query("SELECT * FROM tbcadevento WHERE dataCadEvento >= CURDATE() ORDER BY dataCadEvento ASC LIMIT 6");
@@ -131,5 +131,5 @@
 </section>
 
 <?php 
-    include 'footer.php'; 
+    include 'includes/footer.php'; 
 ?>

@@ -33,7 +33,7 @@ $caminho_foto_perfil = 'uploads/' . $foto_perfil_usuario;
             </ul>
         </nav>
         <div class="logout">
-            <a href="logout.php">🚪 Sair</a>
+            <a href="actions/logout.php">🚪 Sair</a>
         </div>
     </aside>
     <main class="main-content">

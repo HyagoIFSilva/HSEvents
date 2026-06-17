@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexao.php';
+include 'config/conexao.php';
 
 if (!isset($_SESSION['idUsuario'])) {
     header('Location: login.php');
@@ -35,7 +35,7 @@ $caminho_foto_perfil = 'uploads/' . $foto_perfil;
             </ul>
         </nav>
         <div class="logout">
-            <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            <a href="actions/logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
         </div>
     </aside>
 
@@ -44,7 +44,7 @@ $caminho_foto_perfil = 'uploads/' . $foto_perfil;
         <p>Preencha os campos para adicionar um novo evento à sua lista.</p>
 
         <div class="form-wrapper">
-            <form action="processa_cadastro_evento.php" method="POST" enctype="multipart/form-data">
+            <form action="actions/processa_cadastro_evento.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nome">Título do Evento</label>
                     <input type="text" name="nome" id="nome" required placeholder="Ex: Final do Campeonato Mundial">

@@ -1,7 +1,7 @@
 <?php 
-    require_once 'config.php';
+    require_once 'config/config.php';
     $page_title = "Cadastro"; 
-    include 'header.php';
+    include 'includes/header.php';
 
     if (isset($_SESSION['idUsuario'])) {
         header('Location: ' . BASE_URL . 'dashboard.php');
@@ -14,7 +14,7 @@
 <section class="auth-section">
     <div class="form-box">
          <div class="form-content">
-            <form action="processa_cadastro.php" method="POST" enctype="multipart/form-data">
+            <form action="actions/processa_cadastro.php" method="POST" enctype="multipart/form-data">
                 <h2>Cadastro</h2>
                 
                 <?php 
@@ -67,5 +67,5 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="<?php echo BASE_URL; ?>js/auth.js"></script>
 <?php 
-    include 'footer.php'; 
+    include 'includes/footer.php'; 
 ?>

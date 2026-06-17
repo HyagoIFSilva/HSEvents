@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexao.php';
+include 'config/conexao.php';
 
 if (!isset($_SESSION['idUsuario'])) {
     header('Location: login.php');
@@ -98,7 +98,7 @@ try {
                 </ul>
             </nav>
             <div class="logout">
-                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                <a href="actions/logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
             </div>
         </aside>
 
